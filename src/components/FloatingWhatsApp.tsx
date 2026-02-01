@@ -16,14 +16,17 @@ export default function FloatingWhatsApp({
   message = 'Hi! I need help with iTechLK Store',
   hideOnPages = []
 }: FloatingWhatsAppProps) {
-  const [isVisible, setIsVisible] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
   const [shouldShow, setShouldShow] = useState(true)
+  const [mounted, setMounted] = useState(false)
 
   // Use config value if phoneNumber is not provided
   const actualPhoneNumber = phoneNumber || config.contact.whatsapp.replace(/[^0-9]/g, '')
 
   useEffect(() => {
+    setMounted(true)
+    
     // Check if current page is in hideOnPages list
     if (typeof window !== 'undefined') {
       const currentPath = window.location.pathname
@@ -45,7 +48,8 @@ export default function FloatingWhatsApp({
     window.open(whatsappUrl, '_blank')
   }
 
-  if (!shouldShow) return null
+  // Don't render on server to prevent hydration mismatch
+  if (!mounted || !shouldShow) return null
 
   return (
     <>

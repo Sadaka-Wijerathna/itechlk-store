@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import { useSession, signOut } from 'next-auth/react'
 import Image from 'next/image'
-import { useCartStore } from '@/store/cartStore'
+import { useHydratedCartStore } from '@/store/cartStore'
 
 export default function Header() {
   const pathname = usePathname()
@@ -16,7 +16,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const { data: session, status } = useSession()
-  const { getTotalItems } = useCartStore()
+  const { getTotalItems } = useHydratedCartStore()
   
   const isLoggedIn = status === 'authenticated'
   const cartItemsCount = getTotalItems()

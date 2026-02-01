@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { useEffect, useState } from 'react'
 
 export interface CartItem {
   id: string
@@ -97,3 +98,15 @@ export const useCartStore = create<CartStore>()(
     }
   )
 )
+
+// Hook to prevent hydration mismatch with persisted store
+export function useHydratedCartStore() {
+  const [hydrated, setHydrated] = useState(false)
+  const store = useCartStore()
+
+  useEffect(() => {
+    setHydrated(true)
+  }, [])
+
+  return hydrated ? store : { ...store, items: [] }
+}
