@@ -15,9 +15,66 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'iTechLK Store - Premium Accounts at Affordable Prices',
-  description: 'Get premium subscriptions for Netflix, ChatGPT, Canva Pro, and more at the best prices in Sri Lanka',
-  keywords: 'premium accounts, netflix sri lanka, chatgpt plus, canva pro, cheap subscriptions',
+  metadataBase: new URL('https://www.itechlk.store'),
+  title: {
+    default: 'iTechLK Store - Premium Accounts at Affordable Prices',
+    template: '%s | iTechLK Store',
+  },
+  description: 'Get premium subscriptions for Netflix, ChatGPT Plus, Canva Pro, Picsart Gold, and more at the best prices in Sri Lanka. Fast delivery, secure payments, and 24/7 support.',
+  keywords: [
+    'premium accounts sri lanka',
+    'netflix sri lanka',
+    'chatgpt plus sri lanka',
+    'canva pro sri lanka',
+    'picsart gold',
+    'cheap subscriptions',
+    'premium subscriptions',
+    'digital products sri lanka',
+    'streaming accounts',
+    'ai tools sri lanka',
+  ],
+  authors: [{ name: 'iTechLK Store' }],
+  creator: 'iTechLK Store',
+  publisher: 'iTechLK Store',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://www.itechlk.store',
+    siteName: 'iTechLK Store',
+    title: 'iTechLK Store - Premium Accounts at Affordable Prices',
+    description: 'Get premium subscriptions for Netflix, ChatGPT Plus, Canva Pro, and more at the best prices in Sri Lanka. Fast delivery, secure payments, and 24/7 support.',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'iTechLK Store Logo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'iTechLK Store - Premium Accounts at Affordable Prices',
+    description: 'Get premium subscriptions for Netflix, ChatGPT Plus, Canva Pro, and more at the best prices in Sri Lanka.',
+    images: ['/logo.png'],
+    creator: '@itechlkstore',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: '48x48' },
@@ -25,6 +82,10 @@ export const metadata: Metadata = {
     ],
     shortcut: '/favicon.ico',
     apple: { url: '/logo.png', sizes: '180x180' },
+  },
+  manifest: '/manifest.json',
+  verification: {
+    google: 'your-google-verification-code', // Add your Google Search Console verification code
   },
 }
 

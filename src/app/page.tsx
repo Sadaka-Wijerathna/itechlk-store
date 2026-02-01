@@ -3,6 +3,7 @@ import Footer from '@/components/Footer'
 import { Testimonials } from '@/components/Testimonials'
 import { TrustBadges } from '@/components/TrustBadges'
 import { FAQ } from '@/components/FAQ'
+import { OrganizationSchema, WebsiteSchema } from '@/components/StructuredData'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -122,6 +123,10 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
+      {/* Structured Data for SEO */}
+      <OrganizationSchema />
+      <WebsiteSchema />
+      
       <Header />
       
       <main className="flex-1">
