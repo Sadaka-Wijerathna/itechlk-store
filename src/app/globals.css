@@ -568,3 +568,29 @@
 .shine:hover::before {
   left: 100%;
 }
+
+/* ============================================
+   CLS PREVENTION
+   ============================================ */
+
+/* Prevent layout shift for images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Reserve space for lazy-loaded images */
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+/* Prevent font loading shifts */
+@supports (font-display: swap) {
+  * {
+    font-display: swap;
+  }
+}

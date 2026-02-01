@@ -67,9 +67,10 @@ export default function CartPage() {
                             <Image
                               src={item.image}
                               alt={item.name}
-                              width={60}
-                              height={60}
+                              width={80}
+                              height={80}
                               className="object-contain"
+                              priority
                             />
                           </div>
                         </div>

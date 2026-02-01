@@ -24,6 +24,7 @@ import { formatPrice, formatDate } from '@/lib/utils'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function DashboardPage() {
   const { data: session, status } = useSession()
@@ -97,15 +98,93 @@ export default function DashboardPage() {
     )
   }
 
-  // Show loading state
+  // Show loading state with skeleton
   if (loading || status === 'loading') {
     return (
       <div className="min-h-screen flex flex-col bg-neutral-50">
         <Header />
-        <main className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <Loader2 className="h-12 w-12 animate-spin text-primary-600 mx-auto mb-4" />
-            <p className="text-neutral-600">Loading your dashboard...</p>
+        <main className="flex-1 py-12 lg:py-16">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Page Header Skeleton */}
+            <div className="mb-10">
+              <Skeleton variant="rectangular" width={200} height={40} className="mb-4" />
+              <Skeleton variant="rectangular" width={300} height={48} className="mb-2" />
+              <Skeleton variant="text" width={250} />
+            </div>
+
+            {/* Stats Cards Skeleton */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+              {[1, 2, 3].map((i) => (
+                <Card key={i} className="border-2 border-neutral-200">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <Skeleton variant="text" width={120} height={16} className="mb-2" />
+                        <Skeleton variant="rectangular" width={80} height={40} />
+                      </div>
+                      <Skeleton variant="rectangular" width={56} height={56} className="rounded-2xl" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Recent Orders Skeleton */}
+              <Card className="border-2 border-neutral-200 shadow-lg">
+                <CardHeader className="border-b border-neutral-100">
+                  <div className="flex items-center justify-between">
+                    <Skeleton variant="rectangular" width={150} height={28} />
+                    <Skeleton variant="rectangular" width={80} height={32} className="rounded-lg" />
+                  </div>
+                </CardHeader>
+                <CardContent className="p-6 space-y-4">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="border-2 border-neutral-200 rounded-xl p-4">
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex-1">
+                          <Skeleton variant="text" width={150} height={20} className="mb-1" />
+                          <Skeleton variant="text" width={100} height={16} />
+                        </div>
+                        <Skeleton variant="rectangular" width={90} height={24} className="rounded-full" />
+                      </div>
+                      <div className="space-y-2 mb-3">
+                        <Skeleton variant="text" width="80%" />
+                        <Skeleton variant="text" width="60%" />
+                      </div>
+                      <div className="flex items-center justify-between pt-3 border-t border-neutral-200">
+                        <Skeleton variant="rectangular" width={80} height={28} />
+                        <Skeleton variant="rectangular" width={100} height={36} className="rounded-lg" />
+                      </div>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+
+              {/* Active Subscriptions Skeleton */}
+              <Card className="border-2 border-neutral-200 shadow-lg">
+                <CardHeader className="border-b border-neutral-100">
+                  <div className="flex items-center justify-between">
+                    <Skeleton variant="rectangular" width={180} height={28} />
+                    <Skeleton variant="rectangular" width={80} height={32} className="rounded-lg" />
+                  </div>
+                </CardHeader>
+                <CardContent className="p-6 space-y-4">
+                  {[1, 2].map((i) => (
+                    <div key={i} className="border-2 border-neutral-200 rounded-xl p-4">
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex-1">
+                          <Skeleton variant="text" width={150} height={20} className="mb-2" />
+                          <Skeleton variant="text" width={120} height={16} />
+                        </div>
+                        <Skeleton variant="rectangular" width={80} height={24} className="rounded-full" />
+                      </div>
+                      <Skeleton variant="rectangular" width="100%" height={40} className="rounded-lg" />
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </main>
         <Footer />

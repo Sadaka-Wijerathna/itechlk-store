@@ -25,6 +25,7 @@ import {
 import { formatPrice } from '@/lib/utils'
 import { products as staticProducts } from '@/lib/products'
 import toast from 'react-hot-toast'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function ProductsPage() {
   const { data: session, status } = useSession()
@@ -84,12 +85,67 @@ export default function ProductsPage() {
     return (
       <div className="min-h-screen flex flex-col bg-neutral-50">
         <Header />
-        <main className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <Loader2 className="h-12 w-12 animate-spin text-primary-600 mx-auto mb-4" />
-            <p className="text-neutral-600">Loading products...</p>
+        
+        <main className="flex-1">
+          {/* Page Header */}
+          <section className="relative overflow-hidden bg-white py-12 sm:py-16 lg:py-24 border-b border-neutral-200">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-50/50 via-white to-secondary-50/50" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(147,51,234,0.05),transparent_50%)]" />
+            <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="max-w-4xl mx-auto text-center">
+                <Skeleton variant="rectangular" width={250} height={40} className="mx-auto mb-6 rounded-full" />
+                <Skeleton variant="rectangular" width={400} height={60} className="mx-auto mb-6" />
+                <Skeleton variant="text" width={500} className="mx-auto" />
+              </div>
+            </div>
+          </section>
+
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+            {/* Search and Filter Skeleton */}
+            <div className="mb-6 sm:mb-8 space-y-4 sm:space-y-6">
+              <div className="max-w-2xl">
+                <Skeleton variant="rectangular" height={56} className="rounded-xl" />
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                  <Skeleton key={i} variant="rectangular" width={80} height={36} className="rounded-lg" />
+                ))}
+              </div>
+              <Skeleton variant="text" width={200} />
+            </div>
+
+            {/* Products Grid Skeleton */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-12">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                <Card key={i} className="border-2 border-neutral-200 bg-white overflow-hidden flex flex-col h-full">
+                  <CardHeader className="text-center pb-2 sm:pb-4 pt-2 sm:pt-6 px-2 sm:px-6">
+                    <Skeleton variant="rectangular" className="w-full h-20 sm:h-32 lg:h-36 mb-2 sm:mb-4 rounded-xl" />
+                    <Skeleton variant="text" width="80%" height={24} className="mx-auto mb-2" />
+                    <Skeleton variant="text" width="60%" className="mx-auto hidden sm:block" />
+                  </CardHeader>
+                  <CardContent className="space-y-1.5 sm:space-y-3 pb-2 sm:pb-4 flex-1 px-2 sm:px-6">
+                    <Skeleton variant="text" width={100} className="mx-auto" />
+                    <div className="space-y-2 hidden sm:block">
+                      <Skeleton variant="text" width="100%" />
+                      <Skeleton variant="text" width="90%" />
+                    </div>
+                    <Skeleton variant="text" width={80} className="mx-auto sm:mx-0" />
+                  </CardContent>
+                  <div className="mt-auto">
+                    <CardContent className="text-center pt-0 pb-1.5 sm:pb-3 px-2 sm:px-6">
+                      <Skeleton variant="rectangular" width={100} height={32} className="mx-auto mb-1" />
+                      <Skeleton variant="text" width={80} className="mx-auto" />
+                    </CardContent>
+                    <CardFooter className="pt-0 pb-2 sm:pb-6 px-2 sm:px-6">
+                      <Skeleton variant="rectangular" className="w-full h-7 sm:h-10 rounded-lg" />
+                    </CardFooter>
+                  </div>
+                </Card>
+              ))}
+            </div>
           </div>
         </main>
+
         <Footer />
       </div>
     )
@@ -159,7 +215,7 @@ export default function ProductsPage() {
 
           {/* Products Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-12">
-            {filteredProducts.map((product) => (
+            {filteredProducts.map((product, index) => (
               <div key={product.id}>
                 <Card className="group hover:-translate-y-2 transition-all duration-300 hover:shadow-xl border-2 hover:border-primary-200 bg-white overflow-hidden flex flex-col h-full">
                   {/* Badges */}
@@ -190,10 +246,11 @@ export default function ProductsPage() {
                       <Image
                         src={product.image}
                         alt={product.name}
-                        width={product.slug === 'surfshark-vpn-premium' || product.slug === 'expressvpn-premium' || product.slug === 'windows-11-pro' || product.slug === 'picsart' || product.slug === 'netflix' ? 140 : 80}
-                        height={product.slug === 'surfshark-vpn-premium' || product.slug === 'expressvpn-premium' || product.slug === 'windows-11-pro' || product.slug === 'picsart' || product.slug === 'netflix' ? 140 : 80}
+                        width={140}
+                        height={140}
                         className="object-contain group-hover:scale-110 transition-transform duration-300"
-                        loading="lazy"
+                        loading={index < 8 ? 'eager' : 'lazy'}
+                        priority={index < 4}
                         sizes="(max-width: 640px) 80px, (max-width: 1024px) 120px, 140px"
                       />
                     </div>
