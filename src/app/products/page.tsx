@@ -249,8 +249,7 @@ export default function ProductsPage() {
                         width={80}
                         height={80}
                         className="object-contain group-hover:scale-110 transition-transform duration-300 max-h-full w-auto"
-                        loading={index < 8 ? 'eager' : 'lazy'}
-                        priority={index < 4}
+                        loading="lazy"
                         sizes="(max-width: 640px) 60px, (max-width: 1024px) 80px, 100px"
                       />
                     </div>

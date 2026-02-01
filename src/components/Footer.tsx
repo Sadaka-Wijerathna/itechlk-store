@@ -156,7 +156,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
               <p className="text-sm text-neutral-600">
-                © {currentYear} <span className="text-neutral-900 font-semibold">iTechLK Store</span>. All rights reserved.
+                © <span suppressHydrationWarning>{currentYear}</span> <span className="text-neutral-900 font-semibold">iTechLK Store</span>. All rights reserved.
               </p>
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />

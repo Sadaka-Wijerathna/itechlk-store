@@ -70,7 +70,7 @@ export default function CartPage() {
                               width={80}
                               height={80}
                               className="object-contain"
-                              priority
+                              loading="lazy"
                             />
                           </div>
                         </div>
