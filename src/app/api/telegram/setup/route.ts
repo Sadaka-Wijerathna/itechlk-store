@@ -5,12 +5,21 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
-    // Simple authentication - you can improve this
     const { secret } = await request.json()
     
-    if (secret !== process.env.TELEGRAM_SETUP_SECRET) {
+    // Allow authentication with either TELEGRAM_SETUP_SECRET or TELEGRAM_BOT_TOKEN
+    const validSecret = process.env.TELEGRAM_SETUP_SECRET || process.env.TELEGRAM_BOT_TOKEN
+    
+    if (!validSecret) {
       return NextResponse.json(
-        { success: false, error: 'Unauthorized' },
+        { success: false, error: 'Server configuration error: No secret configured' },
+        { status: 500 }
+      )
+    }
+    
+    if (secret !== validSecret) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized - Invalid secret' },
         { status: 401 }
       )
     }
