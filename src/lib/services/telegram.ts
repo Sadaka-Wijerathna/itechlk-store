@@ -159,9 +159,24 @@ export function setupTelegramBot() {
       try {
         // IMMEDIATELY answer callback query to remove loading state
         // This makes the bot feel instant and responsive
-        await bot?.answerCallbackQuery(query.id, {
-          text: `⚡ Processing ${action}...`,
-        })
+        try {
+          await bot?.answerCallbackQuery(query.id, {
+            text: `⚡ Processing ${action}...`,
+          })
+        } catch (callbackError: any) {
+          // Handle old/expired callback queries gracefully
+          if (callbackError.message?.includes('query is too old') || 
+              callbackError.message?.includes('query ID is invalid')) {
+            console.warn('⚠️ Callback query expired or invalid, continuing anyway...')
+            // Send a new message instead since we can't answer the old callback
+            await bot?.sendMessage(
+              query.message?.chat.id || process.env.TELEGRAM_ADMIN_CHAT_ID!,
+              `⚠️ This button is too old. Processing order ${orderNumber} anyway...\n⏳ ${action === 'approve' ? 'Approving' : 'Rejecting'} order...`
+            )
+          } else {
+            throw callbackError // Re-throw if it's a different error
+          }
+        }
 
         // Update message immediately with "Processing..." status
         const processingEmoji = action === 'approve' ? '⏳' : '⏳'
@@ -313,10 +328,21 @@ export function setupTelegramBot() {
         
         const errorMsg = error instanceof Error ? error.message : 'Unknown error'
         const isTimeout = errorMsg.includes('aborted')
+        const isOldQuery = errorMsg.includes('query is too old') || errorMsg.includes('query ID is invalid')
+        
+        // Provide user-friendly error messages
+        let userMessage = ''
+        if (isOldQuery) {
+          userMessage = `⚠️ Order ${orderNumber}: This button expired (>48hrs old).\n\n📌 To process this order:\n1. Go to Admin Dashboard\n2. Find order ${orderNumber}\n3. Approve/Reject from there\n\n⏱️ Duration: ${duration}ms`
+        } else if (isTimeout) {
+          userMessage = `⏱️ Timeout processing order ${orderNumber}\n\nThe operation took too long. Please try again or check the admin dashboard.\n\n⏱️ Duration: ${duration}ms`
+        } else {
+          userMessage = `❌ Error processing order ${orderNumber}: ${errorMsg}\n\n⏱️ Duration: ${duration}ms`
+        }
         
         await bot?.sendMessage(
           query.message?.chat.id || process.env.TELEGRAM_ADMIN_CHAT_ID!,
-          `❌ ${isTimeout ? 'Timeout' : 'Error'} processing order ${orderNumber}: ${errorMsg}\n\n⏱️ Duration: ${duration}ms`
+          userMessage
         )
       }
     }
