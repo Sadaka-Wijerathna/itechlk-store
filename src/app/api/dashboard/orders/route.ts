@@ -44,6 +44,7 @@ export async function GET() {
       status: order.status,
       paymentMethod: order.paymentMethod,
       paymentReceipt: order.paymentReceipt,
+      invoicePdf: order.invoicePdf,
       items: order.items.map((item) => ({
         name: item.product.name,
         quantity: item.quantity,
