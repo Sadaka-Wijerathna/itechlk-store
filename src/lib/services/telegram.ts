@@ -37,13 +37,12 @@ export async function sendOrderNotificationToAdmin(data: OrderNotification) {
 
   const productsText = data.products
     .map((p) => `  • ${p.name} x${p.quantity} (${p.months} month${p.months > 1 ? 's' : ''})`)
-    .join('\\n')
+    .join('\n')
 
-  const message = `
-🔔 *NEW ORDER RECEIVED*
+  const message = `🔔 *NEW ORDER RECEIVED*
 
 📋 *Order Details:*
-Order Number: \\`${data.orderNumber}\\`
+Order Number: \`${data.orderNumber}\`
 Total Amount: *LKR ${data.totalAmount.toFixed(2)}*
 
 👤 *Customer Information:*
@@ -56,8 +55,7 @@ ${productsText}
 
 ${data.paymentReceipt ? '📎 Payment receipt attached below' : '⏳ Waiting for payment receipt'}
 
-*Action Required:* Verify payment and approve order
-  `
+*Action Required:* Verify payment and approve order`
 
   try {
     const keyboard = {
@@ -173,7 +171,7 @@ export function setupTelegramBot() {
         try {
           if (query.message?.caption) {
             await bot?.editMessageCaption(
-              `${query.message.caption}\\n\\n${processingEmoji} *Status: ${processingText}*`,
+              `${query.message.caption}\n\n${processingEmoji} *Status: ${processingText}*`,
               {
                 chat_id: query.message.chat.id,
                 message_id: query.message.message_id,
@@ -183,7 +181,7 @@ export function setupTelegramBot() {
             )
           } else if (query.message?.text) {
             await bot?.editMessageText(
-              `${query.message.text}\\n\\n${processingEmoji} *Status: ${processingText}*`,
+              `${query.message.text}\n\n${processingEmoji} *Status: ${processingText}*`,
               {
                 chat_id: query.message.chat.id,
                 message_id: query.message.message_id,
@@ -233,7 +231,7 @@ export function setupTelegramBot() {
           try {
             if (query.message?.caption) {
               await bot?.editMessageCaption(
-                `${query.message.caption}\\n\\n${statusEmoji} *Status: ${statusText}*${processingTimeText}${alreadyProcessedText}`,
+                `${query.message.caption}\n\n${statusEmoji} *Status: ${statusText}*${processingTimeText}${alreadyProcessedText}`,
                 {
                   chat_id: query.message.chat.id,
                   message_id: query.message.message_id,
@@ -243,7 +241,7 @@ export function setupTelegramBot() {
               )
             } else if (query.message?.text) {
               await bot?.editMessageText(
-                `${query.message.text}\\n\\n${statusEmoji} *Status: ${statusText}*${processingTimeText}${alreadyProcessedText}`,
+                `${query.message.text}\n\n${statusEmoji} *Status: ${statusText}*${processingTimeText}${alreadyProcessedText}`,
                 {
                   chat_id: query.message.chat.id,
                   message_id: query.message.message_id,
@@ -270,7 +268,7 @@ export function setupTelegramBot() {
             const errorMessage = `❌ *ERROR: ${result.error || 'Unknown error'}*`
             if (query.message?.caption) {
               await bot?.editMessageCaption(
-                `${query.message.caption}\\n\\n${errorMessage}`,
+                `${query.message.caption}\n\n${errorMessage}`,
                 {
                   chat_id: query.message.chat.id,
                   message_id: query.message.message_id,
@@ -287,7 +285,7 @@ export function setupTelegramBot() {
               )
             } else if (query.message?.text) {
               await bot?.editMessageText(
-                `${query.message.text}\\n\\n${errorMessage}`,
+                `${query.message.text}\n\n${errorMessage}`,
                 {
                   chat_id: query.message.chat.id,
                   message_id: query.message.message_id,
@@ -319,7 +317,7 @@ export function setupTelegramBot() {
         
         await bot?.sendMessage(
           query.message?.chat.id || process.env.TELEGRAM_ADMIN_CHAT_ID!,
-          `❌ ${isTimeout ? 'Timeout' : 'Error'} processing order ${orderNumber}: ${errorMsg}\\n\\n⏱️ Duration: ${duration}ms`
+          `❌ ${isTimeout ? 'Timeout' : 'Error'} processing order ${orderNumber}: ${errorMsg}\n\n⏱️ Duration: ${duration}ms`
         )
       }
     }
