@@ -31,7 +31,7 @@ export async function sendOrderNotificationToAdmin(data: OrderNotification) {
 
   const productsText = data.products
     .map((p) => `  • ${p.name} x${p.quantity} (${p.months} month${p.months > 1 ? 's' : ''})`)
-    .join('\\n')
+    .join('\n')
 
   const message = `🔔 *NEW ORDER RECEIVED*
 
@@ -157,7 +157,7 @@ export async function processCallbackQuery(query: any) {
           // Send a new message instead since we can't answer the old callback
           await bot?.sendMessage(
             query.message?.chat.id || process.env.TELEGRAM_ADMIN_CHAT_ID!,
-            `⚠️ This button is too old. Processing order ${orderNumber} anyway...\\n⏳ ${action === 'approve' ? 'Approving' : 'Rejecting'} order...`
+            `⚠️ This button is too old. Processing order ${orderNumber} anyway...\n⏳ ${action === 'approve' ? 'Approving' : 'Rejecting'} order...`
           )
         } else {
           throw callbackError // Re-throw if it's a different error
@@ -171,7 +171,7 @@ export async function processCallbackQuery(query: any) {
       try {
         if (query.message?.caption) {
           await bot?.editMessageCaption(
-            `${query.message.caption}\\n\\n${processingEmoji} *Status: ${processingText}*`,
+            `${query.message.caption}\n\n${processingEmoji} *Status: ${processingText}*`,
             {
               chat_id: query.message.chat.id,
               message_id: query.message.message_id,
@@ -181,7 +181,7 @@ export async function processCallbackQuery(query: any) {
           )
         } else if (query.message?.text) {
           await bot?.editMessageText(
-            `${query.message.text}\\n\\n${processingEmoji} *Status: ${processingText}*`,
+            `${query.message.text}\n\n${processingEmoji} *Status: ${processingText}*`,
             {
               chat_id: query.message.chat.id,
               message_id: query.message.message_id,
@@ -231,7 +231,7 @@ export async function processCallbackQuery(query: any) {
         try {
           if (query.message?.caption) {
             await bot?.editMessageCaption(
-              `${query.message.caption}\\n\\n${statusEmoji} *Status: ${statusText}*${processingTimeText}${alreadyProcessedText}`,
+              `${query.message.caption}\n\n${statusEmoji} *Status: ${statusText}*${processingTimeText}${alreadyProcessedText}`,
               {
                 chat_id: query.message.chat.id,
                 message_id: query.message.message_id,
@@ -241,7 +241,7 @@ export async function processCallbackQuery(query: any) {
             )
           } else if (query.message?.text) {
             await bot?.editMessageText(
-              `${query.message.text}\\n\\n${statusEmoji} *Status: ${statusText}*${processingTimeText}${alreadyProcessedText}`,
+              `${query.message.text}\n\n${statusEmoji} *Status: ${statusText}*${processingTimeText}${alreadyProcessedText}`,
               {
                 chat_id: query.message.chat.id,
                 message_id: query.message.message_id,
@@ -269,7 +269,7 @@ export async function processCallbackQuery(query: any) {
           const errorMessage = `❌ *ERROR: ${result.error || 'Unknown error'}*`
           if (query.message?.caption) {
             await bot?.editMessageCaption(
-              `${query.message.caption}\\n\\n${errorMessage}`,
+              `${query.message.caption}\n\n${errorMessage}`,
               {
                 chat_id: query.message.chat.id,
                 message_id: query.message.message_id,
@@ -286,7 +286,7 @@ export async function processCallbackQuery(query: any) {
             )
           } else if (query.message?.text) {
             await bot?.editMessageText(
-              `${query.message.text}\\n\\n${errorMessage}`,
+              `${query.message.text}\n\n${errorMessage}`,
               {
                 chat_id: query.message.chat.id,
                 message_id: query.message.message_id,
@@ -321,11 +321,11 @@ export async function processCallbackQuery(query: any) {
       // Provide user-friendly error messages
       let userMessage = ''
       if (isOldQuery) {
-        userMessage = `⚠️ Order ${orderNumber}: This button expired (>48hrs old).\\n\\n📌 To process this order:\\n1. Go to Admin Dashboard\\n2. Find order ${orderNumber}\\n3. Approve/Reject from there\\n\\n⏱️ Duration: ${duration}ms`
+        userMessage = `⚠️ Order ${orderNumber}: This button expired (>48hrs old).\n\n📌 To process this order:\n1. Go to Admin Dashboard\n2. Find order ${orderNumber}\n3. Approve/Reject from there\n\n⏱️ Duration: ${duration}ms`
       } else if (isTimeout) {
-        userMessage = `⏱️ Timeout processing order ${orderNumber}\\n\\nThe operation took too long. Please try again or check the admin dashboard.\\n\\n⏱️ Duration: ${duration}ms`
+        userMessage = `⏱️ Timeout processing order ${orderNumber}\n\nThe operation took too long. Please try again or check the admin dashboard.\n\n⏱️ Duration: ${duration}ms`
       } else {
-        userMessage = `❌ Error processing order ${orderNumber}: ${errorMsg}\\n\\n⏱️ Duration: ${duration}ms`
+        userMessage = `❌ Error processing order ${orderNumber}: ${errorMsg}\n\n⏱️ Duration: ${duration}ms`
       }
       
       await bot?.sendMessage(
