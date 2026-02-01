@@ -246,12 +246,12 @@ export default function ProductsPage() {
                       <Image
                         src={product.image}
                         alt={product.name}
-                        width={140}
-                        height={140}
-                        className="object-contain group-hover:scale-110 transition-transform duration-300"
+                        width={80}
+                        height={80}
+                        className="object-contain group-hover:scale-110 transition-transform duration-300 max-h-full w-auto"
                         loading={index < 8 ? 'eager' : 'lazy'}
                         priority={index < 4}
-                        sizes="(max-width: 640px) 80px, (max-width: 1024px) 120px, 140px"
+                        sizes="(max-width: 640px) 60px, (max-width: 1024px) 80px, 100px"
                       />
                     </div>
                     <CardTitle className="text-xs sm:text-lg lg:text-xl line-clamp-2 sm:line-clamp-none">{product.name}</CardTitle>
