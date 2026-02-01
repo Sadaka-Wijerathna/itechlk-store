@@ -9,9 +9,11 @@ export async function register() {
     // Only run on Node.js runtime (server-side)
     const { setupTelegramBot } = await import('@/lib/services/telegram')
     
-    // Initialize Telegram bot to listen for callback queries
+    // Initialize Telegram bot (webhook mode - no polling)
+    // Polling is disabled to prevent 409 Conflict errors in serverless
     setupTelegramBot()
     
-    console.log('✅ Telegram bot initialized and listening for callbacks')
+    console.log('✅ Telegram bot initialized (webhook mode)')
+    console.log('ℹ️ To configure webhook, call POST /api/telegram/setup with secret')
   }
 }
