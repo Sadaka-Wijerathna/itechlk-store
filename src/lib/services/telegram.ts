@@ -4,7 +4,6 @@ let bot: TelegramBot | null = null
 
 if (process.env.TELEGRAM_BOT_TOKEN) {
   bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { 
-    polling: true,
     // Optimize polling settings
     polling: {
       interval: 300, // Check every 300ms instead of default 1000ms
