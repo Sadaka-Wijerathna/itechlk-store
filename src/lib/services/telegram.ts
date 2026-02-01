@@ -346,7 +346,11 @@ export async function setupTelegramWebhook() {
     return { success: false }
   }
 
-  const webhookUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/telegram/webhook`
+  // Use www subdomain to avoid redirects
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.itechlk.store'
+  const webhookUrl = baseUrl.includes('www.') 
+    ? `${baseUrl}/api/telegram/webhook`
+    : `${baseUrl.replace('://', '://www.')}/api/telegram/webhook`
   
   try {
     // Delete any existing webhook first
