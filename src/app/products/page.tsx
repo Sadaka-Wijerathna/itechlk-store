@@ -250,7 +250,7 @@ export default function ProductsPage() {
                         height={80}
                         className={`object-contain group-hover:scale-110 transition-transform duration-300 max-h-full w-auto ${
                           product.slug === 'premium-adult' ? 'scale-75' : 
-                          product.slug === 'gemini-advanced' ? 'scale-125' : 
+                          product.slug === 'gemini-advanced' || product.slug === 'picsart' ? 'scale-150' : 
                           ''
                         }`}
                         loading="lazy"
