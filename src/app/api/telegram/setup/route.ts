@@ -12,14 +12,30 @@ export async function POST(request: NextRequest) {
     
     if (!validSecret) {
       return NextResponse.json(
-        { success: false, error: 'Server configuration error: No secret configured' },
+        { 
+          success: false, 
+          error: 'Server configuration error: No secret configured',
+          debug: {
+            hasSetupSecret: !!process.env.TELEGRAM_SETUP_SECRET,
+            hasBotToken: !!process.env.TELEGRAM_BOT_TOKEN,
+            botTokenPrefix: process.env.TELEGRAM_BOT_TOKEN?.substring(0, 10) + '...',
+          }
+        },
         { status: 500 }
       )
     }
     
     if (secret !== validSecret) {
       return NextResponse.json(
-        { success: false, error: 'Unauthorized - Invalid secret' },
+        { 
+          success: false, 
+          error: 'Unauthorized - Invalid secret',
+          debug: {
+            receivedSecretPrefix: secret?.substring(0, 10) + '...',
+            expectedSecretPrefix: validSecret?.substring(0, 10) + '...',
+            secretsMatch: secret === validSecret,
+          }
+        },
         { status: 401 }
       )
     }
