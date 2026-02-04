@@ -22,6 +22,8 @@ import {
   TrendingUp,
   ShoppingBag,
   RefreshCw,
+  Eye,
+  EyeOff,
 } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
 import toast from 'react-hot-toast'
@@ -135,6 +137,28 @@ export default function AdminProductsPage() {
     } catch (error) {
       console.error('Error deleting product:', error)
       toast.error('Error deleting product')
+    }
+  }
+
+  const toggleProductVisibility = async (id: string, currentStatus: boolean, name: string) => {
+    try {
+      const response = await fetch(`/api/admin/products/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isActive: !currentStatus }),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        toast.success(`${name} is now ${!currentStatus ? 'visible' : 'hidden'} on the products page`)
+        fetchProducts()
+      } else {
+        toast.error(data.error || 'Failed to update product visibility')
+      }
+    } catch (error) {
+      console.error('Error toggling product visibility:', error)
+      toast.error('Error updating product visibility')
     }
   }
 
@@ -292,25 +316,61 @@ export default function AdminProductsPage() {
                         </div>
                       )}
 
-                      <div className="flex gap-2">
-                        <Button
-                          variant="primary"
-                          size="sm"
-                          onClick={() => handleEdit(product)}
-                          className="shadow-md hover:shadow-lg"
-                        >
-                          <Edit className="h-4 w-4 mr-2" />
-                          Edit Product
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="text-error-600 hover:text-error-700 hover:bg-error-50 border border-error-200"
-                          onClick={() => handleDelete(product.id, product.name)}
-                        >
-                          <Trash2 className="h-4 w-4 mr-2" />
-                          Delete
-                        </Button>
+                      <div className="flex flex-col sm:flex-row gap-3">
+                        {/* Visibility Toggle */}
+                        <div className="flex items-center gap-3 p-3 bg-neutral-50 rounded-lg border-2 border-neutral-200">
+                          <span className="text-sm font-semibold text-neutral-700 whitespace-nowrap">
+                            Visibility:
+                          </span>
+                          <button
+                            onClick={() => toggleProductVisibility(product.id, product.isActive, product.name)}
+                            className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
+                              product.isActive
+                                ? 'bg-success-500 hover:bg-success-600'
+                                : 'bg-neutral-300 hover:bg-neutral-400'
+                            }`}
+                            title={product.isActive ? 'Click to hide product' : 'Click to show product'}
+                          >
+                            <span
+                              className={`inline-block h-6 w-6 transform rounded-full bg-white shadow-lg transition-transform ${
+                                product.isActive ? 'translate-x-7' : 'translate-x-1'
+                              }`}
+                            >
+                              {product.isActive ? (
+                                <Eye className="h-4 w-4 text-success-600 m-1" />
+                              ) : (
+                                <EyeOff className="h-4 w-4 text-neutral-500 m-1" />
+                              )}
+                            </span>
+                          </button>
+                          <span className={`text-sm font-bold ${
+                            product.isActive ? 'text-success-600' : 'text-neutral-500'
+                          }`}>
+                            {product.isActive ? 'Visible' : 'Hidden'}
+                          </span>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex gap-2 flex-1">
+                          <Button
+                            variant="primary"
+                            size="sm"
+                            onClick={() => handleEdit(product)}
+                            className="shadow-md hover:shadow-lg flex-1 sm:flex-none"
+                          >
+                            <Edit className="h-4 w-4 mr-2" />
+                            Edit Product
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-error-600 hover:text-error-700 hover:bg-error-50 border border-error-200 flex-1 sm:flex-none"
+                            onClick={() => handleDelete(product.id, product.name)}
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>
