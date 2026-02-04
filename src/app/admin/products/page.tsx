@@ -317,31 +317,8 @@ export default function AdminProductsPage() {
                       )}
 
                       <div className="flex flex-col sm:flex-row gap-3">
-                        {/* Visibility Toggle - Modern Design */}
-                        <div className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all ${
-                          product.isActive 
-                            ? 'bg-gradient-to-r from-success-50 to-success-100 border-success-300 shadow-sm' 
-                            : 'bg-gradient-to-r from-neutral-50 to-neutral-100 border-neutral-300'
-                        }`}>
-                          <div className="flex items-center gap-2">
-                            {product.isActive ? (
-                              <div className="p-1.5 bg-success-500 rounded-lg shadow-md">
-                                <Eye className="h-4 w-4 text-white" />
-                              </div>
-                            ) : (
-                              <div className="p-1.5 bg-neutral-400 rounded-lg">
-                                <EyeOff className="h-4 w-4 text-white" />
-                              </div>
-                            )}
-                            <div className="flex flex-col">
-                              <span className="text-xs text-neutral-600 font-medium">Status</span>
-                              <span className={`text-sm font-bold ${
-                                product.isActive ? 'text-success-700' : 'text-neutral-600'
-                              }`}>
-                                {product.isActive ? 'Visible' : 'Hidden'}
-                              </span>
-                            </div>
-                          </div>
+                        {/* Visibility Toggle - Simple Button Only */}
+                        <div className="flex items-center gap-3">
                           <button
                             onClick={() => toggleProductVisibility(product.id, product.isActive, product.name)}
                             className={`relative inline-flex h-7 w-12 items-center rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
