@@ -253,7 +253,7 @@ export default function HomePage() {
 
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-12">
               {products.map((product) => (
-                <Card key={product.id} className="group hover:-translate-y-3 transition-all duration-500 hover:shadow-2xl border-2 hover:border-primary-300 bg-white overflow-hidden flex flex-col relative">
+                <Card key={product.id} className="group hover:-translate-y-3 transition-all duration-500 hover:shadow-2xl border-2 hover:border-primary-300 bg-white overflow-hidden flex flex-col relative min-h-[420px] [contain:layout]">
                   {/* Gradient overlay on hover */}
                   <div className="absolute inset-0 bg-gradient-to-br from-primary-50/0 to-secondary-50/0 group-hover:from-primary-50/50 group-hover:to-secondary-50/50 transition-all duration-500 pointer-events-none" />
                   
@@ -267,7 +267,7 @@ export default function HomePage() {
                   )}
                   
                   <CardHeader className="text-center pb-4 px-4 relative">
-                    <div className="relative w-full h-24 sm:h-32 mb-4 flex items-center justify-center bg-neutral-50 rounded-2xl p-4 group-hover:bg-white transition-colors duration-300">
+                    <div className="relative w-full h-24 sm:h-32 mb-4 flex items-center justify-center bg-neutral-50 rounded-2xl p-4 group-hover:bg-white transition-colors duration-300" style={{aspectRatio: '1/1'}}>
                       <Image
                         src={product.image}
                         alt={product.name}

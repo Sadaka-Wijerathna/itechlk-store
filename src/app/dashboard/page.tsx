@@ -115,7 +115,7 @@ export default function DashboardPage() {
             {/* Stats Cards Skeleton */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
               {[1, 2, 3].map((i) => (
-                <Card key={i} className="border-2 border-neutral-200">
+                <Card key={i} className="border-2 border-neutral-200 min-h-[120px]">
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
@@ -211,7 +211,7 @@ export default function DashboardPage() {
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             {/* Total Orders - Blue/Indigo */}
-            <Card className="border-2 border-neutral-200 hover:border-blue-200 transition-colors hover:shadow-lg">
+            <Card className="border-2 border-neutral-200 hover:border-blue-200 transition-colors hover:shadow-lg min-h-[120px]">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -226,7 +226,7 @@ export default function DashboardPage() {
             </Card>
 
             {/* Active Subscriptions - Green/Emerald */}
-            <Card className="border-2 border-neutral-200 hover:border-emerald-200 transition-colors hover:shadow-lg">
+            <Card className="border-2 border-neutral-200 hover:border-emerald-200 transition-colors hover:shadow-lg min-h-[120px]">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -241,7 +241,7 @@ export default function DashboardPage() {
             </Card>
 
             {/* Total Spent - Purple/Violet */}
-            <Card className="border-2 border-neutral-200 hover:border-purple-200 transition-colors hover:shadow-lg">
+            <Card className="border-2 border-neutral-200 hover:border-purple-200 transition-colors hover:shadow-lg min-h-[120px]">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>

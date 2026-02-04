@@ -57,13 +57,13 @@ export default function CartPage() {
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
               {items.map((item) => (
-                <Card key={item.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <Card key={item.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300 min-h-[180px] sm:min-h-[160px]">
                   <CardContent className="p-4 sm:p-6">
                     <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6">
                       <div className="flex items-start gap-4 sm:gap-6 flex-1">
                         {/* Product Image */}
                         <div className="flex-shrink-0">
-                          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-primary-100 to-secondary-100 flex items-center justify-center p-2">
+                          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-primary-100 to-secondary-100 flex items-center justify-center p-2" style={{aspectRatio: '1/1'}}>
                             <Image
                               src={item.image}
                               alt={item.name}

@@ -117,9 +117,9 @@ export default function ProductsPage() {
             {/* Products Grid Skeleton */}
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-12">
               {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                <Card key={i} className="border-2 border-neutral-200 bg-white overflow-hidden flex flex-col h-full">
+                <Card key={i} className="border-2 border-neutral-200 bg-white overflow-hidden flex flex-col h-full min-h-[420px] sm:min-h-[480px]">
                   <CardHeader className="text-center pb-2 sm:pb-4 pt-2 sm:pt-6 px-2 sm:px-6">
-                    <Skeleton variant="rectangular" className="w-full h-20 sm:h-32 lg:h-36 mb-2 sm:mb-4 rounded-xl" />
+                    <Skeleton variant="rectangular" className="w-full h-20 sm:h-32 lg:h-36 mb-2 sm:mb-4 rounded-xl" style={{aspectRatio: '1/1'}} />
                     <Skeleton variant="text" width="80%" height={24} className="mx-auto mb-2" />
                     <Skeleton variant="text" width="60%" className="mx-auto hidden sm:block" />
                   </CardHeader>
@@ -217,7 +217,7 @@ export default function ProductsPage() {
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-12">
             {filteredProducts.map((product, index) => (
               <div key={product.id}>
-                <Card className="group hover:-translate-y-2 transition-all duration-300 hover:shadow-xl border-2 hover:border-primary-200 bg-white overflow-hidden flex flex-col h-full">
+                <Card className="group hover:-translate-y-2 transition-all duration-300 hover:shadow-xl border-2 hover:border-primary-200 bg-white overflow-hidden flex flex-col h-full min-h-[420px] sm:min-h-[480px] [contain:layout]">
                   {/* Badges */}
                   <div className="absolute top-1.5 right-1.5 sm:top-4 sm:right-4 z-10 flex flex-col gap-1 sm:gap-2">
                     {product.isPopular && (
@@ -242,7 +242,7 @@ export default function ProductsPage() {
                   </div>
 
                   <CardHeader className="text-center pb-2 sm:pb-4 pt-2 sm:pt-6 px-2 sm:px-6">
-                    <div className="relative w-full h-20 sm:h-32 lg:h-36 mb-2 sm:mb-4 flex items-center justify-center bg-neutral-50 rounded-lg sm:rounded-xl p-2 sm:p-4">
+                    <div className="relative w-full h-20 sm:h-32 lg:h-36 mb-2 sm:mb-4 flex items-center justify-center bg-neutral-50 rounded-lg sm:rounded-xl p-2 sm:p-4" style={{aspectRatio: '1/1'}}>
                       <Image
                         src={product.image}
                         alt={product.name}

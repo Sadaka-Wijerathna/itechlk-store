@@ -166,7 +166,7 @@ export default function AdminDashboard() {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-10">
-            <Card className="border-2 border-neutral-200 hover:border-emerald-200 transition-all hover:shadow-xl">
+            <Card className="border-2 border-neutral-200 hover:border-emerald-200 transition-all hover:shadow-xl min-h-[140px]">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
@@ -184,7 +184,7 @@ export default function AdminDashboard() {
               </CardContent>
             </Card>
 
-            <Card className="border-2 border-neutral-200 hover:border-blue-200 transition-all hover:shadow-xl">
+            <Card className="border-2 border-neutral-200 hover:border-blue-200 transition-all hover:shadow-xl min-h-[140px]">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
@@ -201,7 +201,7 @@ export default function AdminDashboard() {
               </CardContent>
             </Card>
 
-            <Card className="border-2 border-neutral-200 hover:border-purple-200 transition-all hover:shadow-xl">
+            <Card className="border-2 border-neutral-200 hover:border-purple-200 transition-all hover:shadow-xl min-h-[140px]">
               <CardContent className="p-6">
                 <Link href="/admin/customers" className="block">
                   <div className="flex items-center justify-between mb-4">
@@ -220,7 +220,7 @@ export default function AdminDashboard() {
               </CardContent>
             </Card>
 
-            <Card className="border-2 border-neutral-200 hover:border-amber-200 transition-all hover:shadow-xl">
+            <Card className="border-2 border-neutral-200 hover:border-amber-200 transition-all hover:shadow-xl min-h-[140px]">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
