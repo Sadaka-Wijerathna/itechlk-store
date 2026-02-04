@@ -53,7 +53,7 @@ async function main() {
       slug: 'capcut-pro',
       price: 750,
       duration: 1,
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/CapCut_logo.svg/512px-CapCut_logo.svg.png',
+      image: 'https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/b6ff445756bb46e4bba0f5a41d5ee1a8~tplv-2zwwjm3azk-image.webp',
       category: 'Video',
       description: 'Professional video editing made simple',
       features: ['Pro Templates', 'No Watermark', 'Advanced Effects', 'Cloud Storage'],
