@@ -253,7 +253,8 @@ export default function ProductsPage() {
                           product.slug === 'gemini-advanced' || product.slug === 'picsart' ? 'scale-150' : 
                           ''
                         }`}
-                        loading="lazy"
+                        priority={index < 4}
+                        loading={index >= 4 ? "lazy" : undefined}
                         sizes="(max-width: 640px) 60px, (max-width: 1024px) 80px, 100px"
                       />
                     </div>

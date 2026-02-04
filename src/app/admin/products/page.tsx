@@ -234,7 +234,8 @@ export default function AdminProductsPage() {
                           width={128}
                           height={128}
                           className="object-contain p-2"
-                          unoptimized
+                          sizes="128px"
+                          loading="lazy"
                         />
                       ) : (
                         <Package className="h-12 w-12 text-neutral-400" />
