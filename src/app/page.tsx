@@ -3,7 +3,7 @@ import Footer from '@/components/Footer'
 import { Testimonials } from '@/components/Testimonials'
 import { TrustBadges } from '@/components/TrustBadges'
 import { FAQ } from '@/components/FAQ'
-import { OrganizationSchema, WebsiteSchema } from '@/components/StructuredData'
+import { OrganizationSchema, WebsiteSchema, LocalBusinessSchema } from '@/components/StructuredData'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -126,6 +126,7 @@ export default function HomePage() {
       {/* Structured Data for SEO */}
       <OrganizationSchema />
       <WebsiteSchema />
+      <LocalBusinessSchema />
       
       <Header />
       

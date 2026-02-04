@@ -188,6 +188,20 @@ async function main() {
       isPopular: true,
       requiresAge: false,
     },
+    {
+      name: 'Spotify Premium',
+      slug: 'spotify-premium',
+      description: 'Ad-free music streaming with unlimited skips and offline downloads',
+      price: 450,
+      duration: 1,
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/2048px-Spotify_logo_without_text.svg.png',
+      category: 'Entertainment',
+      features: ['Ad-free Music', 'Unlimited Skips', 'Offline Downloads', 'High Quality Audio'],
+      stock: 100,
+      isActive: true,
+      isPopular: true,
+      requiresAge: false,
+    },
   ]
 
   for (const product of products) {
