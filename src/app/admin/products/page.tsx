@@ -317,37 +317,46 @@ export default function AdminProductsPage() {
                       )}
 
                       <div className="flex flex-col sm:flex-row gap-3">
-                        {/* Visibility Toggle */}
-                        <div className="flex items-center gap-3 p-3 bg-neutral-50 rounded-lg border-2 border-neutral-200">
-                          <span className="text-sm font-semibold text-neutral-700 whitespace-nowrap">
-                            Visibility:
-                          </span>
+                        {/* Visibility Toggle - Modern Design */}
+                        <div className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all ${
+                          product.isActive 
+                            ? 'bg-gradient-to-r from-success-50 to-success-100 border-success-300 shadow-sm' 
+                            : 'bg-gradient-to-r from-neutral-50 to-neutral-100 border-neutral-300'
+                        }`}>
+                          <div className="flex items-center gap-2">
+                            {product.isActive ? (
+                              <div className="p-1.5 bg-success-500 rounded-lg shadow-md">
+                                <Eye className="h-4 w-4 text-white" />
+                              </div>
+                            ) : (
+                              <div className="p-1.5 bg-neutral-400 rounded-lg">
+                                <EyeOff className="h-4 w-4 text-white" />
+                              </div>
+                            )}
+                            <div className="flex flex-col">
+                              <span className="text-xs text-neutral-600 font-medium">Status</span>
+                              <span className={`text-sm font-bold ${
+                                product.isActive ? 'text-success-700' : 'text-neutral-600'
+                              }`}>
+                                {product.isActive ? 'Visible' : 'Hidden'}
+                              </span>
+                            </div>
+                          </div>
                           <button
                             onClick={() => toggleProductVisibility(product.id, product.isActive, product.name)}
-                            className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
+                            className={`relative inline-flex h-7 w-12 items-center rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                               product.isActive
-                                ? 'bg-success-500 hover:bg-success-600'
-                                : 'bg-neutral-300 hover:bg-neutral-400'
+                                ? 'bg-success-500 hover:bg-success-600 focus:ring-success-500 shadow-md'
+                                : 'bg-neutral-300 hover:bg-neutral-400 focus:ring-neutral-400'
                             }`}
-                            title={product.isActive ? 'Click to hide product' : 'Click to show product'}
+                            title={product.isActive ? 'Click to hide from customers' : 'Click to show to customers'}
                           >
                             <span
-                              className={`inline-block h-6 w-6 transform rounded-full bg-white shadow-lg transition-transform ${
-                                product.isActive ? 'translate-x-7' : 'translate-x-1'
+                              className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-lg transition-transform duration-300 ${
+                                product.isActive ? 'translate-x-6' : 'translate-x-1'
                               }`}
-                            >
-                              {product.isActive ? (
-                                <Eye className="h-4 w-4 text-success-600 m-1" />
-                              ) : (
-                                <EyeOff className="h-4 w-4 text-neutral-500 m-1" />
-                              )}
-                            </span>
+                            />
                           </button>
-                          <span className={`text-sm font-bold ${
-                            product.isActive ? 'text-success-600' : 'text-neutral-500'
-                          }`}>
-                            {product.isActive ? 'Visible' : 'Hidden'}
-                          </span>
                         </div>
 
                         {/* Action Buttons */}
