@@ -70,6 +70,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'i.ibb.co',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.brandfetch.io',
+      },
     ],
   },
   experimental: {
