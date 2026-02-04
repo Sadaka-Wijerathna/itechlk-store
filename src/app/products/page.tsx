@@ -246,8 +246,8 @@ export default function ProductsPage() {
                       <Image
                         src={product.image}
                         alt={product.name}
-                        width={product.slug === 'surfshark-vpn-premium' || product.slug === 'expressvpn-premium' || product.slug === 'windows-11-pro' || product.slug === 'picsart' || product.slug === 'netflix' ? 140 : 80}
-                        height={product.slug === 'surfshark-vpn-premium' || product.slug === 'expressvpn-premium' || product.slug === 'windows-11-pro' || product.slug === 'picsart' || product.slug === 'netflix' ? 140 : 80}
+                        width={product.slug === 'surfshark-vpn-premium' || product.slug === 'expressvpn-premium' || product.slug === 'picsart' || product.slug === 'netflix' ? 140 : 80}
+                        height={product.slug === 'surfshark-vpn-premium' || product.slug === 'expressvpn-premium' || product.slug === 'picsart' || product.slug === 'netflix' ? 140 : 80}
                         className="object-contain group-hover:scale-110 transition-transform duration-300"
                         priority={index < 4}
                         loading={index >= 4 ? "lazy" : undefined}
