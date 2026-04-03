@@ -38,11 +38,13 @@ export async function POST(request: NextRequest) {
 
     // Calculate total
     const totalAmount = items.reduce(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (sum: number, item: any) => sum + item.price * item.quantity * item.months,
       0
     )
 
     // Get products from database to get real ObjectIDs
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const productIdentifiers = items.map((item: any) => item.id)
 
     console.log('🔍 Looking up products with identifiers:', productIdentifiers)
@@ -77,6 +79,7 @@ export async function POST(request: NextRequest) {
         paymentMethod: 'BANK_TRANSFER',
         paymentReceipt,
         items: {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           create: items.map((item: any) => {
             const productId = identifierToIdMap.get(item.id)
             
@@ -151,7 +154,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const session = await getServerSession(authOptions)
     

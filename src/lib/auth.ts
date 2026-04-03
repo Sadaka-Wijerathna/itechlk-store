@@ -10,6 +10,7 @@ function CustomPrismaAdapter(p: typeof prisma): Adapter {
   
   return {
     ...adapter,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async createUser(data: any) {
       try {
         // Check if user with this googleId already exists
@@ -106,7 +107,6 @@ export const authOptions: NextAuthOptions = {
     async session({ session, user }) {
       if (session.user) {
         session.user.id = user.id
-        // @ts-ignore
         session.user.isAdmin = user.isAdmin || false
       }
       return session

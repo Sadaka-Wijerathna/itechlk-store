@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
+// Link removed
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Header from '@/components/Header'
@@ -19,8 +19,7 @@ import {
   AlertCircle,
   Info,
   Sparkles,
-  ArrowRight,
-  Loader2
+  ArrowRight
 } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
 import { products as staticProducts } from '@/lib/products'

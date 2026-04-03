@@ -100,7 +100,7 @@ export const Testimonials: React.FC<{ className?: string }> = ({ className }) =>
 
                 {/* Content */}
                 <p className="text-neutral-700 leading-relaxed mb-6 group-hover:text-neutral-800 transition-colors">
-                  "{testimonial.content}"
+                  &quot;{testimonial.content}&quot;
                 </p>
 
                 {/* Author */}

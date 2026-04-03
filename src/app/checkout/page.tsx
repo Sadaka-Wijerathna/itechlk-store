@@ -7,18 +7,14 @@ import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
 import { 
   User, 
   Mail, 
   Phone, 
-  Upload, 
   CheckCircle2,
   AlertCircle,
-  CreditCard,
   Building2,
   Lock,
-  Sparkles,
   ArrowRight,
   Image as ImageIcon
 } from 'lucide-react'
@@ -246,7 +242,7 @@ export default function CheckoutPage() {
                       required
                     />
                     <p className="text-xs text-neutral-500 mt-2">
-                      We'll send your account details to this number
+                      We&apos;ll send your account details to this number
                     </p>
                   </div>
                 </CardContent>
@@ -351,6 +347,7 @@ export default function CheckoutPage() {
                     {receiptPreview ? (
                       <div className="space-y-4">
                         <div className="relative inline-block">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={receiptPreview}
                             alt="Receipt preview"

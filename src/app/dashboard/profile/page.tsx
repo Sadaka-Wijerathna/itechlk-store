@@ -227,7 +227,7 @@ export default function ProfilePage() {
                       placeholder="+94 XX XXX XXXX"
                       icon={<Phone className="h-5 w-5" />}
                     />
-                    <p className="text-xs text-neutral-500 mt-1">We'll send your account details to this number</p>
+                    <p className="text-xs text-neutral-500 mt-1">We&apos;ll send your account details to this number</p>
                   </div>
                 </div>
               </CardContent>

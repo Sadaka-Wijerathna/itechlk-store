@@ -1,10 +1,10 @@
 export const dynamic = 'force-dynamic'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const session = await getServerSession(authOptions)
     
@@ -74,6 +74,7 @@ export async function GET(request: NextRequest) {
     })
 
     // Group revenue by month
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const monthlyRevenue = revenueByMonth.reduce((acc: any, order) => {
       const month = order.createdAt.toISOString().slice(0, 7) // YYYY-MM
       if (!acc[month]) {

@@ -13,7 +13,6 @@ import { products as allProducts } from '@/lib/products'
 import { 
   Zap, 
   Shield, 
-  Clock, 
   Star, 
   TrendingUp,
   CheckCircle2,
@@ -94,32 +93,7 @@ export default function HomePage() {
     },
   ]
 
-  const stats = [
-    {
-      value: '1000+',
-      label: 'Happy Customers',
-      icon: <Users className="h-5 w-5" />,
-      gradient: 'from-primary-600 to-secondary-600'
-    },
-    {
-      value: '10+',
-      label: 'Premium Products',
-      icon: <Package className="h-5 w-5" />,
-      gradient: 'from-secondary-600 to-accent-600'
-    },
-    {
-      value: '15min',
-      label: 'Avg. Delivery',
-      icon: <Clock className="h-5 w-5" />,
-      gradient: 'from-accent-600 to-primary-600'
-    },
-    {
-      value: '24/7',
-      label: 'Support',
-      icon: <Headphones className="h-5 w-5" />,
-      gradient: 'from-success-600 to-primary-600'
-    },
-  ]
+  // Stats removed
 
   return (
     <div className="min-h-screen flex flex-col bg-white">

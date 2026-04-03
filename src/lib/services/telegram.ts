@@ -129,6 +129,7 @@ export async function sendOrderApprovalNotification(
 }
 
 // Process callback query (called from webhook endpoint)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function processCallbackQuery(query: any) {
   const startTime = Date.now()
   console.log('📥 Processing callback query:', query.data)
@@ -149,12 +150,14 @@ export async function processCallbackQuery(query: any) {
         await bot?.answerCallbackQuery(query.id, {
           text: `⚡ Processing ${action}...`,
         })
-      } catch (callbackError: any) {
+      } catch (callbackError: unknown) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const err = callbackError as Record<string, any>
         // Handle old/expired callback queries gracefully
-        if (callbackError.message?.includes('query is too old') || 
-            callbackError.message?.includes('query ID is invalid')) {
+        if (err.message?.includes('query is too old') || 
+            err.message?.includes('query ID is invalid')) {
           console.warn('⚠️ Callback query expired or invalid, continuing anyway...')
-          // Send a new message instead since we can't answer the old callback
+          // Send a new message since we can't answer the old callback
           await bot?.sendMessage(
             query.message?.chat.id || process.env.TELEGRAM_ADMIN_CHAT_ID!,
             `⚠️ This button is too old. Processing order ${orderNumber} anyway...\n⏳ ${action === 'approve' ? 'Approving' : 'Rejecting'} order...`
@@ -302,7 +305,7 @@ export async function processCallbackQuery(query: any) {
               }
             )
           }
-        } catch (editError) {
+        } catch {
           await bot?.sendMessage(
             query.message?.chat.id || process.env.TELEGRAM_ADMIN_CHAT_ID!,
             `❌ Failed to ${action} order ${orderNumber}: ${result.error || 'Unknown error'}`
@@ -358,7 +361,7 @@ export async function setupTelegramWebhook() {
     console.log('🗑️ Deleted existing webhook')
     
     // Set new webhook
-    const result = await bot.setWebHook(webhookUrl)
+    await bot.setWebHook(webhookUrl)
     console.log(`✅ Telegram webhook set to: ${webhookUrl}`)
     
     // Verify webhook

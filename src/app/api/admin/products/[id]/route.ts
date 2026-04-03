@@ -64,6 +64,7 @@ export async function PATCH(
 
     const data = await request.json()
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updateData: any = {}
     
     if (data.name !== undefined) updateData.name = data.name

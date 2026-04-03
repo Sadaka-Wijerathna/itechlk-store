@@ -2,7 +2,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+// Badge removed
 import Link from 'next/link'
 import {
   ShoppingCart,
@@ -245,7 +245,7 @@ export default function HowItWorksPage() {
                 Frequently Asked Questions
               </h2>
               <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
-                Got questions? We've got answers!
+                Got questions? We&apos;ve got answers!
               </p>
             </div>
 

@@ -17,7 +17,6 @@ import {
   Mail,
   Phone,
   Package,
-  Calendar,
   DollarSign,
   FileText,
   Loader2,
@@ -64,6 +63,7 @@ export default function OrderDetailsPage({ params }: { params: { orderNumber: st
 
   useEffect(() => {
     fetchOrderDetails()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.orderNumber])
 
   const fetchOrderDetails = async () => {
@@ -87,6 +87,7 @@ export default function OrderDetailsPage({ params }: { params: { orderNumber: st
   }
 
   const getStatusBadge = (status: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const variants: Record<string, { variant: any; icon: any; text: string; color: string }> = {
       COMPLETED: { variant: 'success', icon: CheckCircle2, text: 'Completed', color: 'text-success-600' },
       PROCESSING: { variant: 'warning', icon: Clock, text: 'Processing', color: 'text-warning-600' },
@@ -96,6 +97,7 @@ export default function OrderDetailsPage({ params }: { params: { orderNumber: st
     const config = variants[status] || variants.PENDING
     const Icon = config.icon
     return (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       <Badge variant={config.variant as any} className="shadow-sm">
         <Icon className="h-3 w-3 mr-1" />
         {config.text}

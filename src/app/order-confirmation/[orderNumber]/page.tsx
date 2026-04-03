@@ -1,12 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { 
   CheckCircle2, 
   Clock,
@@ -17,21 +16,17 @@ import {
   ArrowRight,
   Download,
   MessageCircle,
-  AlertCircle,
   Sparkles,
-  ShoppingBag,
-  FileText,
-  Zap
+  ShoppingBag
 } from 'lucide-react'
 import Link from 'next/link'
-import { formatPrice } from '@/lib/utils'
 import { config } from '@/lib/config'
-import { generateInvoicePDF, prepareInvoiceData, printInvoiceHTML } from '@/lib/invoice'
+import { printInvoiceHTML } from '@/lib/invoice'
 
 export default function OrderConfirmationPage() {
   const params = useParams()
-  const router = useRouter()
   const [loading, setLoading] = useState(true)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [order, setOrder] = useState<any>(null)
 
   useEffect(() => {
@@ -39,6 +34,7 @@ export default function OrderConfirmationPage() {
       // Fetch order details
       fetchOrderDetails()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.orderNumber])
 
   const fetchOrderDetails = async () => {
@@ -68,6 +64,7 @@ export default function OrderConfirmationPage() {
         customerName: order.user?.name || 'Valued Customer',
         customerEmail: order.user?.email || 'customer@example.com',
         whatsappNumber: order.user?.whatsappNumber || 'Not provided',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         items: order.items.map((item: any) => ({
           productName: item.product.name,
           quantity: item.quantity,
@@ -131,9 +128,8 @@ export default function OrderConfirmationPage() {
               Order Placed Successfully!
               <Sparkles className="h-10 w-10 text-primary-600 animate-pulse" />
             </h1>
-            
             <p className="text-xl text-neutral-600 mb-6 max-w-2xl mx-auto">
-              Thank you for choosing <span className="font-bold text-primary-600">iTechLK Store</span>! We're processing your payment now.
+              Thank you for choosing <span className="font-bold text-primary-600">iTechLK Store</span>! We&apos;re processing your payment now.
             </p>
             
             <div className="inline-flex items-center gap-3 px-8 py-4 bg-white rounded-full shadow-xl border-2 border-primary-200 hover:border-primary-300 transition-all">
@@ -259,7 +255,7 @@ export default function OrderConfirmationPage() {
                   <div className="flex-1 pt-2">
                     <h3 className="font-bold text-neutral-900 text-lg mb-2">Account Details Delivery</h3>
                     <p className="text-neutral-600 leading-relaxed">
-                      You'll receive your account credentials directly via WhatsApp message. Keep your phone nearby and WhatsApp active!
+                      You&apos;ll receive your account credentials directly via WhatsApp message. Keep your phone nearby and WhatsApp active!
                     </p>
                   </div>
                 </div>

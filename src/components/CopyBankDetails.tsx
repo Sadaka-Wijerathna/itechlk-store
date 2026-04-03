@@ -52,7 +52,7 @@ export default function CopyBankDetails({ className }: CopyBankDetailsProps) {
       setTimeout(() => {
         setCopiedField(null)
       }, 2000)
-    } catch (err) {
+    } catch {
       toast.error('Failed to copy')
     }
   }
@@ -184,8 +184,8 @@ export default function CopyBankDetails({ className }: CopyBankDetailsProps) {
           <div className="flex-1">
             <h4 className="font-semibold text-neutral-900 mb-1">Quick Copy Tips</h4>
             <ul className="text-sm text-neutral-700 space-y-1">
-              <li>• Click any "Copy" button to copy that specific detail</li>
-              <li>• Use "Copy All Details" to copy everything at once</li>
+              <li>• Click any &quot;Copy&quot; button to copy that specific detail</li>
+              <li>• Use &quot;Copy All Details&quot; to copy everything at once</li>
               <li>• Paste directly into your banking app</li>
               <li>• Double-check the amount before transferring</li>
             </ul>
@@ -206,7 +206,7 @@ export function CopyBankDetailsCompact({ className }: { className?: string }) {
       setCopiedField(fieldName)
       toast.success('Copied!', { duration: 1500 })
       setTimeout(() => setCopiedField(null), 1500)
-    } catch (err) {
+    } catch {
       toast.error('Failed to copy')
     }
   }

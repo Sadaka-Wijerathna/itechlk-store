@@ -115,7 +115,7 @@ export function LocalBusinessSchema({
   paymentAccepted = ['Cash', 'Credit Card', 'Bank Transfer', 'Mobile Payment'],
   areaServed = 'Sri Lanka',
 }: LocalBusinessSchemaProps) {
-  const schema: any = {
+  const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     '@id': url,

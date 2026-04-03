@@ -52,7 +52,6 @@ export function generateInvoicePDF(data: InvoiceData) {
   
   // Gradient effect (simulated with multiple rectangles)
   for (let i = 0; i < 45; i++) {
-    const alpha = 1 - (i / 45) * 0.3
     const r = primaryColor[0] + (secondaryColor[0] - primaryColor[0]) * (i / 45)
     const g = primaryColor[1] + (secondaryColor[1] - primaryColor[1]) * (i / 45)
     const b = primaryColor[2] + (secondaryColor[2] - primaryColor[2]) * (i / 45)
@@ -149,16 +148,13 @@ export function generateInvoicePDF(data: InvoiceData) {
   // Status Badge with Icon
   let statusColor = warningColor
   let statusText = 'PENDING'
-  let statusIcon = ''
   
   if (data.paymentStatus === 'COMPLETED') {
     statusColor = successColor
     statusText = 'PAID'
-    statusIcon = ''
   } else if (data.paymentStatus === 'CANCELLED' || data.paymentStatus === 'FAILED') {
     statusColor = dangerColor
     statusText = 'FAILED'
-    statusIcon = ''
   }
   
   doc.setFillColor(...statusColor)
@@ -477,8 +473,9 @@ function numberToWords(num: number): string {
   return num.toLocaleString()
 }
 
-// Enhanced helper function to prepare invoice data from order
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function prepareInvoiceData(order: any): InvoiceData {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const items = order.items.map((item: any) => {
     const total = item.price * item.quantity * item.months
     return {
@@ -491,6 +488,7 @@ export function prepareInvoiceData(order: any): InvoiceData {
     }
   })
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const subtotal = items.reduce((sum: number, item: any) => sum + item.total, 0)
   
   // Calculate tax if applicable (0% for now)

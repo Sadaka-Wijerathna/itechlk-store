@@ -9,7 +9,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { ProductCard } from '@/components/ProductCard'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { 
@@ -24,8 +24,6 @@ import {
   Zap,
   Award,
   ChevronRight,
-  Heart,
-  Share2,
   Minus,
   Plus
 } from 'lucide-react'
@@ -66,18 +64,14 @@ interface Product {
 
 export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   const router = useRouter()
-  const { data: session, status } = useSession()
+  const { status } = useSession()
   const { addItem } = useCartStore()
   const [product, setProduct] = useState<Product | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [relatedProducts, setRelatedProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   
-  // Redirect to sign in if not authenticated
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/auth/signin')
-    }
-  }, [status, router])
+  // Allowed casual browsing, checkout will prompt for login.
   
   // Check if product is lifetime (Software category)
   const isLifetime = product?.category === 'Software'
@@ -87,6 +81,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
   useEffect(() => {
     fetchProduct()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.slug])
 
   const fetchProduct = async () => {
@@ -122,11 +117,13 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
       // Fallback to static products
       const staticProduct = getProductBySlug(params.slug)
       if (staticProduct) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const sp = staticProduct as any
         const productData = {
           ...staticProduct,
-          availableMonths: (staticProduct as any).availableMonths || [1, 2, 3],
-          rating: (staticProduct as any).rating || 4.5,
-          reviewCount: (staticProduct as any).reviews || 0,
+          availableMonths: sp.availableMonths || [1, 2, 3],
+          rating: sp.rating || 4.5,
+          reviewCount: sp.reviews || 0,
         } as Product
         setProduct(productData)
         setRelatedProducts(getRelatedProducts(productData.id, productData.category, 4, productData.slug))
@@ -139,11 +136,13 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
       // Fallback to static products
       const staticProduct = getProductBySlug(params.slug)
       if (staticProduct) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const sp = staticProduct as any
         const productData = {
           ...staticProduct,
-          availableMonths: (staticProduct as any).availableMonths || [1, 2, 3],
-          rating: (staticProduct as any).rating || 4.5,
-          reviewCount: (staticProduct as any).reviews || 0,
+          availableMonths: sp.availableMonths || [1, 2, 3],
+          rating: sp.rating || 4.5,
+          reviewCount: sp.reviews || 0,
         } as Product
         setProduct(productData)
         setRelatedProducts(getRelatedProducts(productData.id, productData.category, 4, productData.slug))
@@ -280,9 +279,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
     )
   }
 
-  if (status === 'unauthenticated') {
-    return null
-  }
+  // Let unauthenticated users view the product
 
   if (!product) {
     notFound()
@@ -597,7 +594,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                 <TabsTrigger value="description" className="text-xs sm:text-sm lg:text-lg whitespace-nowrap">Description</TabsTrigger>
                 <TabsTrigger value="features" className="text-xs sm:text-sm lg:text-lg whitespace-nowrap">Features</TabsTrigger>
                 {product.whatsIncluded && product.whatsIncluded.length > 0 && (
-                  <TabsTrigger value="included" className="text-xs sm:text-sm lg:text-lg whitespace-nowrap">What's Included</TabsTrigger>
+                  <TabsTrigger value="included" className="text-xs sm:text-sm lg:text-lg whitespace-nowrap">What&apos;s Included</TabsTrigger>
                 )}
                 {product.compatibility && product.compatibility.length > 0 && (
                   <TabsTrigger value="compatibility" className="text-xs sm:text-sm lg:text-lg whitespace-nowrap">Compatibility</TabsTrigger>
@@ -647,7 +644,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               {product.whatsIncluded && product.whatsIncluded.length > 0 && (
                 <TabsContent value="included" className="mt-4 sm:mt-6 lg:mt-8">
                   <div className="max-w-4xl">
-                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-neutral-900 mb-3 sm:mb-4 lg:mb-6">What's Included</h2>
+                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-neutral-900 mb-3 sm:mb-4 lg:mb-6">What&apos;s Included</h2>
                     <div className="space-y-3 sm:space-y-4">
                       {product.whatsIncluded.map((item, index) => (
                         <div key={index} className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-neutral-50 border border-neutral-200">

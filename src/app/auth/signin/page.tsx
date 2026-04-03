@@ -3,7 +3,7 @@
 import { signIn } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Sparkles, Shield, Zap, CheckCircle2, ArrowLeft } from 'lucide-react'
+import { Shield, Zap, CheckCircle2 } from 'lucide-react'
 import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'

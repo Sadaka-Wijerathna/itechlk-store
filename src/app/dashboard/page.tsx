@@ -17,8 +17,7 @@ import {
   TrendingUp,
   DollarSign,
   Sparkles,
-  ArrowRight,
-  Loader2
+  ArrowRight
 } from 'lucide-react'
 import { formatPrice, formatDate } from '@/lib/utils'
 import Link from 'next/link'
@@ -30,7 +29,9 @@ export default function DashboardPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [loading, setLoading] = useState(true)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [orders, setOrders] = useState<any[]>([])
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [subscriptions, setSubscriptions] = useState<any[]>([])
   const [stats, setStats] = useState({
     totalOrders: 0,
@@ -46,6 +47,7 @@ export default function DashboardPage() {
     } else if (status === 'authenticated') {
       fetchDashboardData()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, router])
   
   // Fetch dashboard data
@@ -82,6 +84,7 @@ export default function DashboardPage() {
   }
 
   const getStatusBadge = (status: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const variants: Record<string, { variant: any; icon: any; text: string }> = {
       COMPLETED: { variant: 'success', icon: CheckCircle2, text: 'Completed' },
       PROCESSING: { variant: 'warning', icon: Clock, text: 'Processing' },
@@ -91,6 +94,7 @@ export default function DashboardPage() {
     const config = variants[status] || variants.PENDING
     const Icon = config.icon
     return (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       <Badge variant={config.variant as any}>
         <Icon className="h-3 w-3 mr-1" />
         {config.text}
@@ -297,6 +301,7 @@ export default function DashboardPage() {
                       </div>
                       
                       <div className="space-y-1 mb-3">
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                         {order.items.map((item: any, idx: number) => (
                           <p key={idx} className="text-sm text-neutral-600">
                             {item.name} × {item.quantity} ({item.months} month{item.months > 1 ? 's' : ''})

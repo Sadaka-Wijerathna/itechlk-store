@@ -22,9 +22,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 export default function SubscriptionsPage() {
-  const { data: session, status } = useSession()
+  const { status } = useSession()
   const router = useRouter()
   const [loading, setLoading] = useState(true)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [subscriptions, setSubscriptions] = useState<any[]>([])
 
   useEffect(() => {
@@ -203,7 +204,7 @@ export default function SubscriptionsPage() {
                     <h3 className="font-semibold text-neutral-900 mb-2">Subscription Management</h3>
                     <ul className="text-sm text-neutral-700 space-y-1">
                       <li>• Renew your subscriptions before they expire to avoid service interruption</li>
-                      <li>• You'll receive reminders 3 days before expiration</li>
+                      <li>• You&apos;ll receive reminders 3 days before expiration</li>
                       <li>• Contact support if you need help with your subscriptions</li>
                     </ul>
                   </div>

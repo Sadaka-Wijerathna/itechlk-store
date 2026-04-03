@@ -2,18 +2,15 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
 import {
   Mail,
-  Phone,
   MapPin,
   MessageCircle,
   Clock,
-  Send,
   Sparkles
 } from 'lucide-react'
 import { config } from '@/lib/config'
+import ContactForm from '@/components/ContactForm'
 
 export default function ContactPage() {
   const contactMethods = [
@@ -61,13 +58,13 @@ export default function ContactPage() {
           <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary-100 to-secondary-100 border border-primary-200 mb-6">
               <Sparkles className="h-4 w-4 text-primary-600" />
-              <span className="text-sm font-semibold text-primary-700">We're Here to Help</span>
+              <span className="text-sm font-semibold text-primary-700">We&apos;re Here to Help</span>
             </div>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-neutral-900 mb-6 leading-tight">
               Contact <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">Us</span>
             </h1>
             <p className="text-xl text-neutral-600 max-w-3xl mx-auto leading-relaxed">
-              Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+              Have questions? We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
             </p>
           </div>
         </section>
@@ -106,27 +103,17 @@ export default function ContactPage() {
               ))}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-              {/* Map */}
-              <Card className="border-2 border-neutral-200 shadow-xl overflow-hidden">
-                <CardContent className="p-8 pb-0">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto mb-16">
+              {/* Contact Form */}
+              <Card className="border-2 border-neutral-200 shadow-xl">
+                <CardContent className="p-8">
                   <div className="flex items-center gap-3 mb-6">
                     <div className="h-12 w-12 rounded-2xl bg-gradient-to-r from-primary-100 to-secondary-100 flex items-center justify-center">
-                      <MapPin className="h-6 w-6 text-primary-600" />
+                      <Mail className="h-6 w-6 text-primary-600" />
                     </div>
-                    <h2 className="text-2xl font-bold text-neutral-900">Our Location</h2>
+                    <h2 className="text-2xl font-bold text-neutral-900">Send a Message</h2>
                   </div>
-                  <div className="w-full h-[400px] rounded-xl overflow-hidden">
-                    <iframe
-                      src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3967.3456789!2d80.42469460000001!3d6.317809!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMTknMDQuMSJOIDgwwrAyNSczNy4wIkU!5e0!3m2!1sen!2slk!4v1234567890"
-                      width="100%"
-                      height="100%"
-                      style={{ border: 0 }}
-                      allowFullScreen
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                    />
-                  </div>
+                  <ContactForm />
                 </CardContent>
               </Card>
 
@@ -197,6 +184,31 @@ export default function ContactPage() {
                   </CardContent>
                 </Card>
               </div>
+            </div>
+
+            {/* Map (Full Width) */}
+            <div className="max-w-6xl mx-auto">
+              <Card className="border-2 border-neutral-200 shadow-xl overflow-hidden">
+                <CardContent className="p-8 pb-0">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-r from-primary-100 to-secondary-100 flex items-center justify-center">
+                      <MapPin className="h-6 w-6 text-primary-600" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-neutral-900">Our Location</h2>
+                  </div>
+                  <div className="w-full h-[400px] rounded-xl overflow-hidden mb-8">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3967.3456789!2d80.42469460000001!3d6.317809!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMTknMDQuMSJOIDgwwrAyNSczNy4wIkU!5e0!3m2!1sen!2slk!4v1234567890"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>

@@ -29,6 +29,7 @@ export default function OrdersPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [loading, setLoading] = useState(true)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [orders, setOrders] = useState<any[]>([])
 
   useEffect(() => {
@@ -54,13 +55,16 @@ export default function OrdersPage() {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleDownloadInvoice = (order: any) => {
     const invoiceData = {
       orderNumber: order.orderNumber,
       createdAt: order.date,
       customerName: session?.user?.name || 'Valued Customer',
       customerEmail: session?.user?.email || 'customer@example.com',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       whatsappNumber: (session?.user as any)?.whatsappNumber || 'Not provided',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       items: order.items.map((item: any) => ({
         productName: item.name,
         quantity: item.quantity,
@@ -75,6 +79,7 @@ export default function OrdersPage() {
   }
 
   const getStatusBadge = (status: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const variants: Record<string, { variant: any; icon: any; text: string; color: string }> = {
       COMPLETED: { variant: 'success', icon: CheckCircle2, text: 'Completed', color: 'text-success-600' },
       PROCESSING: { variant: 'warning', icon: Clock, text: 'Processing', color: 'text-warning-600' },
@@ -85,6 +90,7 @@ export default function OrdersPage() {
     const config = variants[status] || variants.PENDING
     const Icon = config.icon
     return (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       <Badge variant={config.variant as any}>
         <Icon className="h-3 w-3 mr-1" />
         {config.text}
@@ -167,6 +173,7 @@ export default function OrdersPage() {
                     <div className="mb-6">
                       <h4 className="font-semibold text-neutral-900 mb-3">Order Items</h4>
                       <div className="space-y-2">
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                         {order.items.map((item: any, idx: number) => (
                           <div key={idx} className="flex justify-between items-center py-2 border-b border-neutral-100 last:border-0">
                             <div>

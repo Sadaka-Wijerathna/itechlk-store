@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -20,7 +19,6 @@ import {
   Shield,
   Bell,
   Globe,
-  Database,
   Key,
   CheckCircle2,
 } from 'lucide-react'
@@ -28,7 +26,6 @@ import toast from 'react-hot-toast'
 import Link from 'next/link'
 
 export default function AdminSettingsPage() {
-  const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [settings, setSettings] = useState({
     // Store Information
@@ -397,7 +394,7 @@ export default function AdminSettingsPage() {
                     onChange={(e) => setSettings({ ...settings, siteUrl: e.target.value })}
                     placeholder="https://yourdomain.com"
                   />
-                  <p className="text-xs text-neutral-500 mt-1">Your store's public URL</p>
+                  <p className="text-xs text-neutral-500 mt-1">Your store&apos;s public URL</p>
                 </div>
 
                 <div className="p-4 bg-warning-50 rounded-xl border border-warning-200">

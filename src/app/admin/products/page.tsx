@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -22,8 +21,6 @@ import {
   TrendingUp,
   ShoppingBag,
   RefreshCw,
-  Eye,
-  EyeOff,
 } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
 import toast from 'react-hot-toast'
@@ -53,7 +50,6 @@ interface Product {
 }
 
 export default function AdminProductsPage() {
-  const router = useRouter()
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
@@ -436,6 +432,7 @@ export default function AdminProductsPage() {
                 <div className="space-y-4">
                   {[1, 3, 6, 12].map((month) => {
                     const isAvailable = editingProduct.availableMonths?.includes(month)
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const pricing = editingProduct.monthlyPricing as any || {}
                     const monthData = pricing[month] || { price: editingProduct.price * month, discount: 0 }
                     
