@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -16,14 +16,26 @@ import {
   AlertCircle,
   TrendingUp,
   DollarSign,
-  Sparkles,
-  ArrowRight
+  ArrowRight,
+  ChevronRight,
+  Sparkles
 } from 'lucide-react'
 import { formatPrice, formatDate } from '@/lib/utils'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Skeleton } from '@/components/ui/skeleton'
+import { motion } from 'framer-motion'
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.1 } }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.3 } }
+}
 
 export default function DashboardPage() {
   const { data: session, status } = useSession()
@@ -83,9 +95,10 @@ export default function DashboardPage() {
     }
   }
 
+  type StatusVariant = 'success' | 'warning' | 'outline' | 'error'
+  interface StatusConfig { variant: StatusVariant; icon: React.ElementType; text: string }
   const getStatusBadge = (status: string) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const variants: Record<string, { variant: any; icon: any; text: string }> = {
+    const variants: Record<string, StatusConfig> = {
       COMPLETED: { variant: 'success', icon: CheckCircle2, text: 'Completed' },
       PROCESSING: { variant: 'warning', icon: Clock, text: 'Processing' },
       PENDING: { variant: 'outline', icon: AlertCircle, text: 'Pending' },
@@ -94,11 +107,39 @@ export default function DashboardPage() {
     const config = variants[status] || variants.PENDING
     const Icon = config.icon
     return (
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      <Badge variant={config.variant as any}>
+      <Badge variant={config.variant} className="shadow-sm">
         <Icon className="h-3 w-3 mr-1" />
         {config.text}
       </Badge>
+    )
+  }
+
+  // Mini timeline helper for orders
+  const renderOrderTimeline = (status: string) => {
+    let progress = 0;
+    if (status === 'PENDING') progress = 10;
+    if (status === 'PROCESSING') progress = 50;
+    if (status === 'COMPLETED') progress = 100;
+    if (status === 'CANCELLED') return null; // no timeline for cancelled
+
+    return (
+      <div className="mt-4 mb-2">
+        <div className="flex justify-between text-[10px] text-neutral-500 mb-1.5 px-1 font-medium">
+          <span>Pending</span>
+          <span className={progress >= 50 ? 'text-primary-600' : ''}>Processing</span>
+          <span className={progress === 100 ? 'text-success-600' : ''}>Completed</span>
+        </div>
+        <div className="w-full bg-neutral-100 rounded-full h-1.5 overflow-hidden">
+          <motion.div 
+            initial={{ width: 0 }}
+            animate={{ width: `${progress}%` }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className={`h-full rounded-full ${
+              progress === 100 ? 'bg-success-500' : 'bg-primary-500'
+            }`}
+          />
+        </div>
+      </div>
     )
   }
 
@@ -200,79 +241,96 @@ export default function DashboardPage() {
     <div className="min-h-screen flex flex-col bg-neutral-50">
       <Header />
       
-      <main className="flex-1 py-12 lg:py-16">
+      <main className="flex-1 py-12 lg:py-16 bg-[#FDFDFD]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          
           {/* Page Header */}
-          <div className="mb-10">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-neutral-200 shadow-sm mb-4">
-              <Sparkles className="h-4 w-4 text-primary-600" />
-              <span className="text-sm font-medium text-neutral-700">Welcome back, {session?.user?.name?.split(' ')[0] || 'User'}!</span>
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-neutral-100 shadow-[0_2px_10px_rgb(0,0,0,0.04)] mb-5">
+              <Sparkles className="h-4 w-4 text-primary-500" />
+              <span className="text-sm font-semibold bg-gradient-to-r from-neutral-800 to-neutral-600 bg-clip-text text-transparent">
+                Welcome back, {session?.user?.name?.split(' ')[0] || 'User'}!
+              </span>
             </div>
-            <h1 className="text-4xl font-bold text-neutral-900 mb-2">My Dashboard</h1>
-            <p className="text-lg text-neutral-600">Manage your orders and subscriptions</p>
-          </div>
+            <h1 className="text-4xl font-extrabold text-neutral-900 mb-2 tracking-tight">Your Portfolio</h1>
+            <p className="text-lg text-neutral-500">Overview of your activity and active subscriptions.</p>
+          </motion.div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            {/* Total Orders - Blue/Indigo */}
-            <Card className="border-2 border-neutral-200 hover:border-blue-200 transition-colors hover:shadow-lg min-h-[120px]">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-neutral-600 mb-1">Total Orders</p>
-                    <p className="text-4xl font-bold text-neutral-900">{stats.totalOrders}</p>
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10"
+          >
+            {/* Total Orders */}
+            <motion.div variants={itemVariants}>
+              <Card className="border border-neutral-100 bg-white hover:border-blue-200 transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] min-h-[120px] rounded-3xl overflow-hidden group">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-neutral-400 mb-1">Total Orders</p>
+                      <p className="text-4xl font-extrabold text-neutral-900">{stats.totalOrders}</p>
+                    </div>
+                    <div className="h-14 w-14 rounded-2xl bg-blue-50 group-hover:bg-blue-500 flex items-center justify-center transition-colors duration-500">
+                      <Package className="h-7 w-7 text-blue-500 group-hover:text-white transition-colors duration-500" />
+                    </div>
                   </div>
-                  <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
-                    <Package className="h-7 w-7 text-white" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-            {/* Active Subscriptions - Green/Emerald */}
-            <Card className="border-2 border-neutral-200 hover:border-emerald-200 transition-colors hover:shadow-lg min-h-[120px]">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-neutral-600 mb-1">Active Subscriptions</p>
-                    <p className="text-4xl font-bold text-neutral-900">{stats.activeSubscriptions}</p>
+            {/* Active Subscriptions */}
+            <motion.div variants={itemVariants}>
+              <Card className="border border-neutral-100 bg-white hover:border-emerald-200 transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] min-h-[120px] rounded-3xl overflow-hidden group">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-neutral-400 mb-1">Active Plans</p>
+                      <p className="text-4xl font-extrabold text-neutral-900">{stats.activeSubscriptions}</p>
+                    </div>
+                    <div className="h-14 w-14 rounded-2xl bg-emerald-50 group-hover:bg-emerald-500 flex items-center justify-center transition-colors duration-500">
+                      <TrendingUp className="h-7 w-7 text-emerald-500 group-hover:text-white transition-colors duration-500" />
+                    </div>
                   </div>
-                  <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-                    <TrendingUp className="h-7 w-7 text-white" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-            {/* Total Spent - Purple/Violet */}
-            <Card className="border-2 border-neutral-200 hover:border-purple-200 transition-colors hover:shadow-lg min-h-[120px]">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-neutral-600 mb-1">Total Spent</p>
-                    <p className="text-4xl font-bold text-neutral-900">
-                      {formatPrice(stats.totalSpent)}
-                    </p>
+            {/* Total Spent */}
+            <motion.div variants={itemVariants}>
+              <Card className="border border-neutral-100 bg-white hover:border-purple-200 transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] min-h-[120px] rounded-3xl overflow-hidden group">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-neutral-400 mb-1">Total Value</p>
+                      <p className="text-4xl font-extrabold text-neutral-900">
+                        {formatPrice(stats.totalSpent)}
+                      </p>
+                    </div>
+                    <div className="h-14 w-14 rounded-2xl bg-purple-50 group-hover:bg-purple-500 flex items-center justify-center transition-colors duration-500">
+                      <DollarSign className="h-7 w-7 text-purple-500 group-hover:text-white transition-colors duration-500" />
+                    </div>
                   </div>
-                  <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center shadow-lg shadow-purple-500/30">
-                    <DollarSign className="h-7 w-7 text-white" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+          >
             {/* Recent Orders */}
             <div>
-              <Card className="border-2 border-neutral-200 shadow-lg">
-                <CardHeader className="border-b border-neutral-100">
+              <Card className="border border-neutral-200 shadow-sm rounded-3xl bg-white overflow-hidden">
+                <CardHeader className="border-b border-neutral-100 bg-neutral-50/50">
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-xl">Recent Orders</CardTitle>
+                    <CardTitle className="text-lg">Recent Orders</CardTitle>
                     <Link href="/dashboard/orders">
-                      <Button variant="ghost" size="sm" className="group">
+                      <Button variant="ghost" size="sm" className="group text-primary-600 hover:text-primary-700 hover:bg-primary-50">
                         View All
-                        <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                        <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
                       </Button>
                     </Link>
                   </div>
@@ -280,51 +338,48 @@ export default function DashboardPage() {
                 <CardContent className="p-6 space-y-4">
                   {orders.length === 0 ? (
                     <div className="text-center py-12">
-                      <Package className="h-16 w-16 text-neutral-300 mx-auto mb-4" />
-                      <p className="text-neutral-600 mb-2">No orders yet</p>
-                      <p className="text-sm text-neutral-500 mb-4">Start shopping to see your orders here</p>
+                      <Package className="h-16 w-16 text-neutral-200 mx-auto mb-4" />
+                      <p className="text-neutral-500 mb-4 font-medium">No orders yet</p>
                       <Link href="/products">
-                        <Button variant="primary" size="sm">
-                          Browse Products
+                        <Button variant="primary" className="rounded-xl shadow-md cursor-pointer">
+                          Start Shopping
                         </Button>
                       </Link>
                     </div>
                   ) : (
                     orders.map((order) => (
-                    <div key={order.id} className="border-2 border-neutral-200 rounded-xl p-4 hover:border-primary-200 transition-colors hover:shadow-md">
-                      <div className="flex items-start justify-between mb-3">
+                    <div key={order.id} className="border border-neutral-100 rounded-2xl p-5 hover:border-neutral-300 transition-colors group">
+                      <div className="flex items-start justify-between mb-2">
                         <div>
-                          <p className="font-semibold text-neutral-900">{order.orderNumber}</p>
-                          <p className="text-sm text-neutral-500">{formatDate(order.date)}</p>
+                          <p className="font-bold text-neutral-900 group-hover:text-primary-600 transition-colors">{order.orderNumber}</p>
+                          <p className="text-xs font-medium text-neutral-400">{formatDate(order.date)}</p>
                         </div>
                         {getStatusBadge(order.status)}
                       </div>
                       
-                      <div className="space-y-1 mb-3">
-                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                        {order.items.map((item: any, idx: number) => (
-                          <p key={idx} className="text-sm text-neutral-600">
-                            {item.name} × {item.quantity} ({item.months} month{item.months > 1 ? 's' : ''})
-                          </p>
+                      <div className="space-y-1 mb-2 mt-3 p-3 bg-neutral-50 rounded-xl">
+                        {order.items.map((item: { name: string; quantity: number; months: number }, idx: number) => (
+                          <div key={idx} className="flex justify-between items-center text-sm">
+                            <span className="font-medium text-neutral-700">{item.name}</span>
+                            <span className="text-xs text-neutral-500 font-mono bg-white px-2 py-0.5 rounded border border-neutral-200">×{item.quantity} ({item.months}m)</span>
+                          </div>
                         ))}
                       </div>
 
-                      <div className="flex items-center justify-between pt-3 border-t border-neutral-200">
-                        <span className="text-lg font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+                      {renderOrderTimeline(order.status)}
+
+                      <div className="flex items-center justify-between pt-4 mt-2 border-t border-neutral-100">
+                        <span className="text-lg font-extrabold text-neutral-900">
                           {formatPrice(order.total)}
                         </span>
                         {order.invoicePdf ? (
                           <a href={order.invoicePdf} target="_blank" rel="noopener noreferrer">
-                            <Button variant="outline" size="sm">
-                              <Download className="h-4 w-4 mr-2" />
-                              Invoice
+                            <Button variant="outline" size="sm" className="rounded-lg h-8 text-xs font-semibold hover:bg-neutral-100">
+                              <Download className="h-3 w-3 mr-1.5" /> Receipt
                             </Button>
                           </a>
                         ) : (
-                          <Button variant="outline" size="sm" disabled>
-                            <Download className="h-4 w-4 mr-2" />
-                            No Invoice
-                          </Button>
+                          <span className="text-[10px] text-neutral-400 uppercase font-semibold">Processing receipt</span>
                         )}
                       </div>
                     </div>
@@ -336,14 +391,14 @@ export default function DashboardPage() {
 
             {/* Active Subscriptions */}
             <div>
-              <Card className="border-2 border-neutral-200 shadow-lg">
-                <CardHeader className="border-b border-neutral-100">
+              <Card className="border border-neutral-200 shadow-sm rounded-3xl bg-white overflow-hidden">
+                <CardHeader className="border-b border-neutral-100 bg-neutral-50/50">
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-xl">Active Subscriptions</CardTitle>
+                    <CardTitle className="text-lg">Active Subscriptions</CardTitle>
                     <Link href="/dashboard/subscriptions">
-                      <Button variant="ghost" size="sm" className="group">
+                      <Button variant="ghost" size="sm" className="group text-primary-600 hover:text-primary-700 hover:bg-primary-50">
                         View All
-                        <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                        <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
                       </Button>
                     </Link>
                   </div>
@@ -362,31 +417,31 @@ export default function DashboardPage() {
                     </div>
                   ) : (
                     subscriptions.map((sub) => (
-                    <div key={sub.id} className="border-2 border-neutral-200 rounded-xl p-4 hover:border-success-200 transition-colors hover:shadow-md">
-                      <div className="flex items-start justify-between mb-3">
+                    <div key={sub.id} className="border border-neutral-100 rounded-2xl p-5 hover:border-emerald-200 transition-colors group">
+                      <div className="flex items-start justify-between mb-4">
                         <div>
-                          <p className="font-semibold text-neutral-900">{sub.product}</p>
-                          <p className="text-sm text-neutral-500 flex items-center gap-1 mt-1">
-                            <Calendar className="h-3 w-3" />
+                          <p className="font-bold text-neutral-900 group-hover:text-emerald-700 transition-colors">{sub.product}</p>
+                          <p className="text-xs font-medium text-neutral-500 flex items-center gap-1.5 mt-1">
+                            <Calendar className="h-3.5 w-3.5 text-neutral-400" />
                             Expires: {formatDate(sub.endDate)}
                           </p>
                         </div>
-                        <Badge variant={sub.daysLeft <= 3 ? 'warning' : 'success'}>
+                        <Badge variant={sub.daysLeft <= 3 ? 'warning' : 'success'} className="shadow-sm">
                           {sub.daysLeft} days left
                         </Badge>
                       </div>
 
                       {sub.daysLeft <= 3 && (
-                        <div className="bg-warning-50 border-2 border-warning-200 rounded-lg p-3 mb-3">
-                          <p className="text-sm text-warning-900 flex items-center gap-2">
-                            <AlertCircle className="h-4 w-4 flex-shrink-0" />
-                            Expiring soon! Renew now to continue service.
+                        <div className="bg-warning-50 border border-warning-100 rounded-xl p-3 mb-4">
+                          <p className="text-xs font-medium text-warning-900 flex items-center gap-2">
+                            <AlertCircle className="h-4 w-4 text-warning-500 flex-shrink-0" />
+                            Expiring very soon! Renewing is advised.
                           </p>
                         </div>
                       )}
 
                       <Link href="/products">
-                        <Button variant="outline" size="sm" className="w-full">
+                        <Button variant="outline" size="sm" className="w-full rounded-xl hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-700 transition-colors">
                           Renew Subscription
                         </Button>
                       </Link>
@@ -396,36 +451,38 @@ export default function DashboardPage() {
                 </CardContent>
               </Card>
             </div>
-          </div>
+          </motion.div>
 
           {/* Quick Actions */}
-          <Card className="mt-8 border-2 border-neutral-200 shadow-lg">
-            <CardHeader className="border-b border-neutral-100">
-              <CardTitle className="text-xl">Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Link href="/products">
-                  <Button variant="primary" size="lg" className="w-full group">
-                    <Sparkles className="h-5 w-5 mr-2" />
-                    Browse Products
-                    <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-                <Link href="/dashboard/orders">
-                  <Button variant="outline" size="lg" className="w-full">
-                    <Package className="h-5 w-5 mr-2" />
-                    View All Orders
-                  </Button>
-                </Link>
-                <Link href="/dashboard/profile">
-                  <Button variant="outline" size="lg" className="w-full">
-                    Edit Profile
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="mt-8">
+            <Card className="border border-neutral-100 shadow-sm rounded-3xl bg-white overflow-hidden">
+              <CardHeader className="border-b border-neutral-50 bg-neutral-50/30">
+                <CardTitle className="text-lg">Quick Actions</CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <Link href="/products">
+                    <Button variant="primary" size="lg" className="w-full group rounded-xl shadow-md h-14 bg-neutral-900 hover:bg-primary-600 transition-colors">
+                      <Sparkles className="h-5 w-5 mr-2" />
+                      Browse Products
+                      <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                  <Link href="/dashboard/orders">
+                    <Button variant="outline" size="lg" className="w-full rounded-xl h-14 border-neutral-200 hover:bg-neutral-50 font-bold text-neutral-600">
+                      <Package className="h-5 w-5 mr-2 text-neutral-400" />
+                      View All Orders
+                    </Button>
+                  </Link>
+                  <Link href="/dashboard/profile">
+                    <Button variant="outline" size="lg" className="w-full rounded-xl h-14 border-neutral-200 hover:bg-neutral-50 font-bold text-neutral-600">
+                      Edit Profile
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
       </main>
 

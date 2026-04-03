@@ -16,7 +16,6 @@ import {
   Star, 
   ShoppingCart, 
   CheckCircle2, 
-  Clock, 
   Shield,
   TrendingUp,
   AlertCircle,
@@ -25,12 +24,14 @@ import {
   Award,
   ChevronRight,
   Minus,
-  Plus
+  Plus,
+  ArrowRight
 } from 'lucide-react'
 import { formatPrice, cn } from '@/lib/utils'
 import { getProductBySlug, getRelatedProducts } from '@/lib/products'
 import { useCartStore } from '@/store/cartStore'
 import toast from 'react-hot-toast'
+import { motion } from 'framer-motion'
 
 interface ProductDetailPageProps {
   params: {
@@ -306,23 +307,23 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
         {/* Product Details Section */}
         <section className="py-6 sm:py-8 lg:py-12">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
-              {/* Left Column - Image */}
-              <div className="space-y-4 sm:space-y-6">
-                <div className="relative bg-white rounded-xl sm:rounded-2xl border-2 border-neutral-200 p-6 sm:p-8 lg:p-12 aspect-square flex items-center justify-center group overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start relative">
+              {/* Left Column - Image (Scrolls normally) */}
+              <div className="space-y-4 sm:space-y-6 lg:pb-12">
+                <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} className="relative bg-[#f8f9fa] rounded-3xl border border-neutral-100 p-6 sm:p-8 lg:p-12 aspect-square flex items-center justify-center group overflow-hidden shadow-inner">
                   {/* Badges */}
-                  <div className="absolute top-3 left-3 sm:top-6 sm:left-6 z-10 flex flex-col gap-1.5 sm:gap-2">
+                  <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10 flex flex-col gap-2">
                     {product.isPopular && (
-                      <Badge className="bg-gradient-to-r from-primary-600 to-secondary-600 text-white shadow-lg text-[10px] sm:text-xs px-1.5 py-0.5 sm:px-2 sm:py-1">
-                        <TrendingUp className="h-2 w-2 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
-                        <span className="hidden sm:inline">Popular</span>
+                      <Badge className="bg-white/80 backdrop-blur-md text-primary-700 border border-primary-100 shadow-sm text-xs px-2.5 py-1">
+                        <TrendingUp className="h-3 w-3 mr-1 text-primary-500" />
+                        <span className="hidden sm:inline">Popular Choice</span>
                         <span className="sm:hidden">Pop</span>
                       </Badge>
                     )}
                     {product.stock < 10 && (
-                      <Badge variant="warning" className="shadow-lg text-[10px] sm:text-xs px-1.5 py-0.5 sm:px-2 sm:py-1">
-                        <AlertCircle className="h-2 w-2 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
-                        <span className="hidden sm:inline">Only {product.stock} left</span>
+                      <Badge className="bg-warning-50/90 backdrop-blur-md text-warning-700 border border-warning-200 shadow-sm text-xs px-2.5 py-1">
+                        <AlertCircle className="h-3 w-3 mr-1" />
+                        <span className="hidden sm:inline">Only {product.stock} left in stock</span>
                         <span className="sm:hidden">{product.stock} left</span>
                       </Badge>
                     )}
@@ -334,46 +335,52 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                   </div>
 
                   {product.image ? (
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      width={400}
-                      height={400}
-                      className="object-contain group-hover:scale-110 transition-transform duration-500"
-                      priority
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 400px"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement
-                        target.style.display = 'none'
-                      }}
-                    />
+                    <motion.div 
+                      key={product.image}
+                      initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.6 }}
+                      className="relative w-full h-full flex items-center justify-center filter drop-shadow-2xl group-hover:scale-105 transition-transform duration-700 will-change-transform"
+                    >
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        width={500}
+                        height={500}
+                        className="object-contain"
+                        priority
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 500px"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement
+                          target.style.display = 'none'
+                        }}
+                      />
+                    </motion.div>
                   ) : (
                     <Package className="h-24 w-24 text-neutral-300" />
                   )}
-                </div>
+                </motion.div>
 
                 {/* Trust Badges */}
-                <div className="grid grid-cols-3 gap-2 sm:gap-4">
-                  <Card className="text-center p-2 sm:p-4 border-2">
-                    <Zap className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-primary-600 mx-auto mb-1 sm:mb-2" />
-                    <p className="text-[10px] sm:text-xs font-semibold text-neutral-900">Fast Delivery</p>
-                    <p className="text-[9px] sm:text-xs text-neutral-600 hidden sm:block">{product.deliveryTime}</p>
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="grid grid-cols-3 gap-3 sm:gap-4">
+                  <Card className="text-center p-3 sm:p-4 border-none bg-primary-50/50 hover:bg-primary-50 transition-colors">
+                    <Zap className="h-5 w-5 lg:h-7 lg:w-7 text-primary-500 mx-auto mb-2" />
+                    <p className="text-[10px] sm:text-xs font-bold text-neutral-800">Fast Delivery</p>
+                    <p className="text-[9px] sm:text-[10px] text-neutral-500 mt-0.5">{product.deliveryTime}</p>
                   </Card>
-                  <Card className="text-center p-2 sm:p-4 border-2">
-                    <Shield className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-success-600 mx-auto mb-1 sm:mb-2" />
-                    <p className="text-[10px] sm:text-xs font-semibold text-neutral-900">Secure</p>
-                    <p className="text-[9px] sm:text-xs text-neutral-600">100% Safe</p>
+                  <Card className="text-center p-3 sm:p-4 border-none bg-success-50/50 hover:bg-success-50 transition-colors">
+                    <Shield className="h-5 w-5 lg:h-7 lg:w-7 text-success-500 mx-auto mb-2" />
+                    <p className="text-[10px] sm:text-xs font-bold text-neutral-800">Secure</p>
+                    <p className="text-[9px] sm:text-[10px] text-neutral-500 mt-0.5">100% Safe</p>
                   </Card>
-                  <Card className="text-center p-2 sm:p-4 border-2">
-                    <Award className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-secondary-600 mx-auto mb-1 sm:mb-2" />
-                    <p className="text-[10px] sm:text-xs font-semibold text-neutral-900">Warranty</p>
-                    <p className="text-[9px] sm:text-xs text-neutral-600 hidden sm:block">{product.warranty}</p>
+                  <Card className="text-center p-3 sm:p-4 border-none bg-secondary-50/50 hover:bg-secondary-50 transition-colors">
+                    <Award className="h-5 w-5 lg:h-7 lg:w-7 text-secondary-500 mx-auto mb-2" />
+                    <p className="text-[10px] sm:text-xs font-bold text-neutral-800">Warranty</p>
+                    <p className="text-[9px] sm:text-[10px] text-neutral-500 mt-0.5">{product.warranty}</p>
                   </Card>
-                </div>
+                </motion.div>
               </div>
 
-              {/* Right Column - Details */}
-              <div className="space-y-4 sm:space-y-6">
+              {/* Right Column - Details (Sticky) */}
+              <div className="space-y-6 sm:space-y-8 lg:sticky lg:top-24 lg:overflow-y-auto lg:max-h-[calc(100vh-6rem)] lg:pb-12 scrollbar-none">
                 {/* Category */}
                 <div>
                   <Badge variant="outline" className="mb-3 sm:mb-4 text-xs sm:text-sm">
@@ -534,57 +541,48 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
                 {/* Action Buttons */}
                 {product.stock === 0 ? (
-                  <Card className="bg-error-50 border-2 border-error-200">
+                  <Card className="bg-error-50 border-none shadow-inner">
                     <CardContent className="p-6 text-center">
-                      <AlertCircle className="h-12 w-12 text-error-500 mx-auto mb-3" />
-                      <h3 className="text-lg font-bold text-error-900 mb-2">Out of Stock</h3>
-                      <p className="text-sm text-error-700">This product is currently unavailable. Please check back later or contact us for more information.</p>
+                      <AlertCircle className="h-10 w-10 text-error-500 mx-auto mb-3" />
+                      <h3 className="text-lg font-bold text-error-900 mb-1">Out of Stock</h3>
+                      <p className="text-sm text-error-700">Currently unavailable. Check back later.</p>
                     </CardContent>
                   </Card>
                 ) : (
-                  <div className="space-y-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
                     <Button
                       variant="outline"
-                      size="default"
-                      className="w-full text-sm sm:text-base lg:text-lg h-11 sm:h-12 lg:h-14 border-2 border-neutral-300 hover:border-primary-600 hover:bg-primary-50 transition-all duration-200"
+                      size="lg"
+                      className="flex-1 h-14 border-2 border-neutral-200 text-neutral-700 font-bold hover:bg-neutral-50 hover:border-neutral-300 rounded-xl"
                       onClick={handleAddToCart}
                     >
-                      <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-                      Add to Cart
+                      <ShoppingCart className="h-5 w-5 mr-2" /> Add to Cart
                     </Button>
-                    
                     <Button
                       variant="primary"
-                      size="default"
-                      className="w-full text-sm sm:text-base lg:text-lg h-11 sm:h-12 lg:h-14 bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 text-white font-bold shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200"
+                      size="lg"
+                      className="flex-1 h-14 bg-neutral-900 hover:bg-primary-600 text-white font-bold rounded-xl shadow-xl shadow-neutral-900/10 hover:shadow-primary-600/30 transition-all duration-300"
                       onClick={handleBuyNow}
                     >
-                      <Zap className="h-4 w-4 sm:h-5 sm:w-5 mr-2 animate-pulse" />
-                      Buy Now
+                      Buy Now <ArrowRight className="h-5 w-5 ml-2" />
                     </Button>
                   </div>
                 )}
-
-                {/* Delivery Info */}
-                <Card className="border-2 border-neutral-200">
-                  <CardContent className="p-4 sm:p-6">
-                    <div className="flex items-start gap-3 sm:gap-4">
-                      <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg sm:rounded-xl bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center flex-shrink-0">
-                        <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-                      </div>
-                      <div>
-                        <h4 className="text-sm sm:text-base font-semibold text-neutral-900 mb-1 sm:mb-2">Fast Delivery</h4>
-                        <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
-                          Get your account details within <strong>{product.deliveryTime}</strong> after payment verification via WhatsApp.
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
               </div>
             </div>
           </div>
         </section>
+
+        <style jsx global>{`
+          /* Hide scrollbar for sticky element if not needed */
+          .scrollbar-none::-webkit-scrollbar {
+            display: none;
+          }
+          .scrollbar-none {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+          }
+        `}</style>
 
         {/* Product Information Tabs */}
         <section className="py-6 sm:py-8 lg:py-12 bg-white">
