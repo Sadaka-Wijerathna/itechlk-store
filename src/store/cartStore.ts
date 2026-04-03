@@ -27,10 +27,10 @@ export const productImages: Record<string, string> = {
   'picsart': 'https://play-lh.googleusercontent.com/YdGJHSYcbAVBjYgFLpVLJAxPnVqPLdJjCCcxhxGZqVgOmLPem-wOqDcxF-qKqVqLaA=w240-h480-rw',
   'chatgpt-plus': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1024px-ChatGPT_logo.svg.png',
   'netflix': 'https://images.ctfassets.net/y2ske730sjqp/1aONibCke6niZhgPxuiilC/2c401b05a07288746ddf3bd3943fbc76/BrandAssets_Logos_01-Wordmark.jpg',
-  'capcut-pro': 'https://static-00.iconduck.com/assets.00/capcut-icon-2048x2048-0zqqh2uc.png',
+  'capcut-pro': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/CapCut_logo.svg/800px-CapCut_logo.svg.png',
   'photoshop': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/1200px-Adobe_Photoshop_CC_icon.svg.png',
   'gemini': 'https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg',
-  'canva-pro': 'https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg',
+  'canva-pro': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Canva_Logo.svg/1200px-Canva_Logo.svg.png',
   'premium-adult': 'https://cdn-icons-png.flaticon.com/512/2917/2917995.png',
 }
 
