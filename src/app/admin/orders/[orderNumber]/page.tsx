@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -107,7 +105,7 @@ export default function OrderDetailsPage({ params }: { params: { orderNumber: st
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-neutral-50">
+      <div className="py-8 sm:py-12">
         <div className="text-center">
           <Loader2 className="h-16 w-16 animate-spin text-primary-600 mx-auto mb-4" />
           <p className="text-lg text-neutral-600 font-medium">Loading order details...</p>
@@ -122,9 +120,7 @@ export default function OrderDetailsPage({ params }: { params: { orderNumber: st
 
   return (
     <div className="min-h-screen flex flex-col bg-neutral-50">
-      <Header />
-
-      <main className="flex-1 py-8 sm:py-12">
+      
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
@@ -337,9 +333,8 @@ export default function OrderDetailsPage({ params }: { params: { orderNumber: st
             </div>
           </div>
         </div>
-      </main>
+      
 
-      <Footer />
-    </div>
+      </div>
   )
 }

@@ -1,8 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -12,8 +10,6 @@ import {
   Users,
   Clock,
   Sparkles,
-  ShoppingCart,
-  Settings,
   TrendingUp,
   Activity,
   BarChart3,
@@ -94,73 +90,19 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-neutral-50">
-      <Header />
-      
-      <main className="flex-1 py-8 sm:py-12 lg:py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Page Header */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 sm:mb-10">
-            <div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-900 mb-2">Admin Dashboard</h1>
-              <p className="text-base sm:text-lg text-neutral-600">Monitor and manage your store performance</p>
-            </div>
-            <Badge className="bg-gradient-to-r from-primary-600 to-secondary-600 text-white border-0 text-sm px-4 py-2 shadow-lg">
-              <Sparkles className="h-4 w-4 mr-2" />
-              Administrator
-            </Badge>
+    <div className="py-8 sm:py-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Page Header */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 sm:mb-10">
+          <div>
+            <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-2">Platform Overview</h1>
+            <p className="text-base sm:text-lg text-neutral-600">Monitor your store&apos;s sales and performance</p>
           </div>
-
-          {/* Quick Actions */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
-            <Link href="/admin/products" className="group">
-              <Card className="border-2 border-neutral-200 hover:border-blue-500 transition-all cursor-pointer hover:shadow-xl transform hover:scale-[1.02] duration-200">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4">
-                    <div className="h-14 w-14 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
-                      <Package className="h-7 w-7 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-neutral-900 text-lg">Manage Products</h3>
-                      <p className="text-sm text-neutral-600">Edit prices, stock & more</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-
-            <Link href="/admin/orders" className="group">
-              <Card className="border-2 border-neutral-200 hover:border-purple-500 transition-all cursor-pointer hover:shadow-xl transform hover:scale-[1.02] duration-200">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4">
-                    <div className="h-14 w-14 rounded-xl bg-gradient-to-r from-purple-600 to-purple-700 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
-                      <ShoppingCart className="h-7 w-7 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-neutral-900 text-lg">View Orders</h3>
-                      <p className="text-sm text-neutral-600">Process & track orders</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-
-            <Link href="/admin/settings" className="group">
-              <Card className="border-2 border-neutral-200 hover:border-orange-500 transition-all cursor-pointer hover:shadow-xl transform hover:scale-[1.02] duration-200">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4">
-                    <div className="h-14 w-14 rounded-xl bg-gradient-to-r from-orange-600 to-orange-700 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
-                      <Settings className="h-7 w-7 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-neutral-900 text-lg">Settings</h3>
-                      <p className="text-sm text-neutral-600">Configure your store</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          </div>
+          <Badge className="bg-gradient-to-r from-primary-600 to-secondary-600 text-white border-0 text-sm px-4 py-2 shadow-lg">
+            <Sparkles className="h-4 w-4 mr-2" />
+            Administrator
+          </Badge>
+        </div>
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-10">
@@ -302,9 +244,6 @@ export default function AdminDashboard() {
             </Card>
           </div>
         </div>
-      </main>
-
-      <Footer />
     </div>
   )
 }

@@ -1,8 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -165,7 +163,7 @@ export default function AdminProductsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-neutral-50">
+      <div className="py-8 sm:py-12">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary-600 mx-auto"></div>
           <p className="mt-6 text-lg text-neutral-600 font-medium">Loading products...</p>
@@ -176,9 +174,7 @@ export default function AdminProductsPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-neutral-50">
-      <Header />
-
-      <main className="flex-1 py-8 sm:py-12">
+      
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
@@ -372,7 +368,7 @@ export default function AdminProductsPage() {
             </Card>
           )}
         </div>
-      </main>
+      
 
       {/* Edit Modal */}
       {showEditModal && editingProduct && (
@@ -609,7 +605,6 @@ export default function AdminProductsPage() {
         </div>
       )}
 
-      <Footer />
-    </div>
+      </div>
   )
 }

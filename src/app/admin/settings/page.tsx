@@ -1,8 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -77,12 +75,9 @@ export default function AdminSettingsPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-neutral-50">
-      <Header />
-
-      <main className="flex-1 py-8 sm:py-12">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
+    <div className="py-8 sm:py-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
             <div className="flex items-center gap-4">
               <Link href="/admin">
@@ -477,9 +472,6 @@ export default function AdminSettingsPage() {
             </Button>
           </div>
         </div>
-      </main>
-
-      <Footer />
     </div>
   )
 }
